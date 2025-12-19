@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday, My Love</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-pink: #ffafbd;
-            --deep-rose: #ffc3a0;
+            --primary-pink: #ff9eb5;
+            --deep-rose: #d63384;
+            --tulip-stem: #7fb069;
             --text-color: #4a4a4a;
         }
 
@@ -16,10 +17,10 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
+            min-height: 100%;
             overflow-x: hidden;
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe3e3 100%);
+            background: linear-gradient(135deg, #fff0f3 0%, #ffe3e3 100%);
         }
 
         /* --- MAGIC ENTRANCE --- */
@@ -38,11 +39,14 @@
         .heart-btn {
             background: none;
             border: none;
-            font-size: 5rem;
+            font-size: 6rem;
             cursor: pointer;
             animation: pulse 1.5s infinite;
-            filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.5));
+            filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.6));
+            transition: transform 0.3s;
         }
+        
+        .heart-btn:hover { transform: scale(1.2); }
 
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -58,127 +62,263 @@
             z-index: 1;
         }
 
+        /* --- TULIP ANIMATIONS (SVG STYLES) --- */
+        .tulip-garden {
+            position: fixed;
+            bottom: -10px;
+            width: 300px;
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0; /* Hidden initially */
+            transition: opacity 2s ease 1s;
+        }
+        
+        .tulip-garden.left { left: -50px; }
+        .tulip-garden.right { right: -50px; transform: scaleX(-1); } /* Mirror for right side */
+
+        .tulip-svg {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Animation classes added via JS */
+        .grow-in { opacity: 1; }
+        
+        /* CSS based blooming animation on the SVG parts */
+        .bloom-petal-left { transform-origin: bottom right; animation: bloomLeft 3s ease-out forwards; }
+        .bloom-petal-right { transform-origin: bottom left; animation: bloomRight 3s ease-out forwards; }
+        .bloom-petal-center { transform-origin: bottom center; animation: bloomCenter 3s ease-out forwards; }
+        
+        @keyframes bloomLeft { from { transform: rotate(0deg) scale(0.8); } to { transform: rotate(-15deg) scale(1); } }
+        @keyframes bloomRight { from { transform: rotate(0deg) scale(0.8); } to { transform: rotate(15deg) scale(1); } }
+        @keyframes bloomCenter { from { transform: translateY(10px) scale(0.8); } to { transform: translateY(0) scale(1); } }
+        .tulip-stem-sway { transform-origin: bottom center; animation: sway 5s ease-in-out infinite alternate; }
+        @keyframes sway { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
+
+
         /* --- MAIN CONTENT --- */
         .container {
             position: relative;
             z-index: 10;
             text-align: center;
-            padding: 50px 20px;
+            padding: 50px 20px 150px 20px; /* Extra padding bottom for tulips */
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
         h1 {
             font-family: 'Dancing Script', cursive;
             font-size: 4rem;
-            color: #d63384;
+            color: var(--deep-rose);
             margin-bottom: 10px;
             opacity: 0;
             transform: translateY(20px);
             transition: all 1s ease;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #888;
             margin-bottom: 50px;
+            font-weight: 500;
         }
 
-        /* --- PHOTO GALLERY (POLAROID STYLE) --- */
+        /* --- PHOTO GALLERY --- */
         .gallery {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
+            gap: 40px;
             margin-top: 50px;
+            perspective: 1000px;
         }
 
         .polaroid {
             background: white;
-            padding: 15px 15px 40px 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 15px 15px 50px 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             transform: rotate(var(--r));
-            transition: transform 0.3s ease;
-            width: 250px;
+            transition: all 0.4s ease;
+            width: 220px;
+            position: relative;
+        }
+        
+        /* Add tape effect */
+        .polaroid::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 35%;
+            width: 30%;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.6);
+            transform: rotate(-5deg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         .polaroid:hover {
-            transform: scale(1.05) rotate(0deg);
+            transform: scale(1.1) rotate(0deg) translateZ(20px);
             z-index: 20;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
 
         .polaroid img {
             width: 100%;
-            height: 250px;
+            height: 220px;
             object-fit: cover;
+            border-bottom: 1px solid #eee;
         }
 
         .polaroid span {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             display: block;
-            margin-top: 15px;
-            color: #555;
+            margin-top: 20px;
+            color: var(--deep-rose);
         }
 
-        /* --- MESSAGE BOX --- */
+        /* --- MESSAGE SECTION 1 (Typing) --- */
         .message-section {
             max-width: 600px;
-            margin: 80px auto;
-            background: rgba(255, 255, 255, 0.7);
+            margin: 80px auto 40px auto;
+            background: rgba(255, 255, 255, 0.8);
             padding: 40px;
             border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(214, 51, 132, 0.15);
             backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
         }
 
         #typing-text {
             font-size: 1.3rem;
             line-height: 1.8;
             color: var(--text-color);
-            min-height: 100px;
+            min-height: 120px;
+            white-space: pre-wrap; /* preserve line breaks */
         }
 
-        /* --- AUDIO PLAYER --- */
-        #music-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 100;
-            background: white;
-            padding: 10px;
-            border-radius: 50%;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            cursor: pointer;
+        /* --- BLESSING CARD SECTION --- */
+        .blessing-card {
+            max-width: 700px;
+            margin: 50px auto;
+            background: linear-gradient(to bottom, #fff, #fff5f8);
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border: 3px double var(--primary-pink);
+            position: relative;
+            opacity: 0; /* Hidden initially */
+            transform: translateY(30px);
+            transition: all 1.5s ease;
+        }
+        
+        .blessing-card::before, .blessing-card::after {
+            content: '🌸';
+            position: absolute;
+            font-size: 2rem;
+        }
+        .blessing-card::before { top: 10px; left: 15px; }
+        .blessing-card::after { bottom: 10px; right: 15px; }
+
+        .blessing-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: var(--deep-rose);
+            margin-bottom: 20px;
+        }
+
+        .blessing-text {
+            font-size: 1.2rem;
+            line-height: 2;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .final-signature {
+            font-family: 'Dancing Script'; 
+            font-size: 2.5rem;
+            color: var(--deep-rose);
+            margin-top: 40px;
+            display: block;
         }
 
         .visible { opacity: 1 !important; transform: translateY(0) !important; }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .polaroid { width: 100%; max-width: 300px; margin-bottom: 20px; }
+            .tulip-garden { width: 150px; }
+            .message-section, .blessing-card { padding: 25px; margin: 30px 15px; }
+        }
 
     </style>
 </head>
 <body>
 
     <div id="overlay">
-        <button class="heart-btn" onclick="startMagic()">❤️</button>
-        <p>Click the heart for a surprise</p>
+        <button class="heart-btn" onclick="startMagic()">💖</button>
+        <p style="font-size: 1.2rem; margin-top: 20px; color: #888;">Tap the heart to begin...</p>
     </div>
 
     <canvas id="canvas"></canvas>
 
+    <div class="tulip-garden left" id="tulips-left">
+        <svg class="tulip-svg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+            <g class="tulip-stem-sway">
+                <path d="M100,300 Q90,200 100,100" stroke="#7fb069" stroke-width="8" fill="none"/>
+                <path d="M100,250 Q60,200 70,150" stroke="#7fb069" stroke-width="6" fill="none"/>
+                <path d="M100,280 Q140,230 130,180" stroke="#7fb069" stroke-width="6" fill="none"/>
+                <g transform="translate(100, 100)">
+                    <path class="bloom-petal-center" d="M0,0 C-20,-40 20,-40 0,0 z" fill="#ff69b4" />
+                    <path class="bloom-petal-left" d="M0,0 C-30,-30 -40,-10 0,0 z" fill="#ff8da1" />
+                    <path class="bloom-petal-right" d="M0,0 C30,-30 40,-10 0,0 z" fill="#ff8da1" />
+                 </g>
+                 <g transform="translate(70, 150) scale(0.7)">
+                    <path class="bloom-petal-center" d="M0,0 C-20,-40 20,-40 0,0 z" fill="#d63384" />
+                    <path class="bloom-petal-left" d="M0,0 C-30,-30 -40,-10 0,0 z" fill="#ff69b4" />
+                 </g>
+            </g>
+        </svg>
+    </div>
+
+    <div class="tulip-garden right" id="tulips-right">
+        <svg class="tulip-svg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+             <g class="tulip-stem-sway">
+                <path d="M100,300 Q110,200 100,100" stroke="#7fb069" stroke-width="8" fill="none"/>
+                <path d="M100,250 Q140,200 130,150" stroke="#7fb069" stroke-width="6" fill="none"/>
+                 <g transform="translate(100, 100)">
+                    <path class="bloom-petal-center" d="M0,0 C-20,-40 20,-40 0,0 z" fill="#ff69b4" />
+                    <path class="bloom-petal-left" d="M0,0 C-30,-30 -40,-10 0,0 z" fill="#ff8da1" />
+                    <path class="bloom-petal-right" d="M0,0 C30,-30 40,-10 0,0 z" fill="#ff8da1" />
+                 </g>
+            </g>
+        </svg>
+    </div>
+
+
     <div class="container">
-        <h1 id="main-title">Happy Birthday, Gorgeous!</h1>
-        <p class="subtitle">Our first of many together...</p>
+        <h1 id="main-title">Happy Birthday, My Love!</h1>
+        <p class="subtitle">Our first milestone of forever...</p>
 
         <div class="gallery">
-            <div class="polaroid" style="--r: -3deg;">
-                <img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?auto=format&fit=crop&w=500" alt="Us">
-                <span>The first day...</span>
+            <div class="polaroid" style="--r: -4deg;">
+                <img src="https://images.unsplash.com/photo-1621786051932-78eb05d36f73?auto=format&fit=crop&w=500&q=80" alt="Us">
+                <span>Just the beginning</span>
             </div>
-            <div class="polaroid" style="--r: 2deg;">
-                <img src="https://images.unsplash.com/photo-1516589174184-c6848b11d403?auto=format&fit=crop&w=500" alt="Us">
-                <span>My favorite smile</span>
+            <div class="polaroid" style="--r: 3deg;">
+                <img src="https://images.unsplash.com/photo-1625495556616-37c682873ad7?auto=format&fit=crop&w=500&q=80" alt="Us">
+                <span>My favorite view</span>
             </div>
             <div class="polaroid" style="--r: -2deg;">
-                <img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=500" alt="Us">
-                <span>Magic moments</span>
+                <img src="https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?auto=format&fit=crop&w=500&q=80" alt="Us">
+                <span>Pure happiness</span>
+            </div>
+            <div class="polaroid" style="--r: 5deg;">
+                <img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=500&q=80" alt="Us">
+                <span>My beautiful birthday girl</span>
             </div>
         </div>
 
@@ -186,28 +326,48 @@
             <div id="typing-text"></div>
         </div>
 
-        <p style="color: #d63384; font-family: 'Dancing Script'; font-size: 2rem;">I love you forever.</p>
+        <div class="blessing-card" id="blessingCard">
+            <div class="blessing-title">My Wish For You</div>
+            <div class="blessing-text">
+                Baby, on your special day, I don't just want to say I love you (even though I do, more than anything). I want to speak blessings over your life.
+                <br><br>
+                I pray that this year brings you a wonder-filled, beautiful life. May your days be as bright as your smile and your heart as full as you've made mine. I pray for amazing family time, for laughter that hurts your stomach, and for dreams that actually come true.
+                <br><br>
+                You deserve every good thing the world has to offer. I am so honored to be the one standing by your side for this chapter and all the ones to come.
+            </div>
+            <span class="final-signature">Love always, Sam.</span>
+        </div>
+
     </div>
 
     <audio id="bg-music" loop>
-        <source src="https://www.chosic.com/wp-content/uploads/2021/04/Beautiful-Piano.mp3" type="audio/mpeg">
+        <source src="https://www.chosic.com/wp-content/uploads/2021/07/The-Moment-I-Found-You.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        const message = "Since the day we met, my life has been so much brighter. I never knew I could feel this happy until I found you. This is our first birthday together, and I promise to make every single one after this even more special. You are my world, my heart, and my best friend. Happy Birthday, baby! 🌸✨";
+        // The first typing message
+        const message = "My Dearest,\n\nSince the moment you walked into my life, everything changed in the best way possible. I never knew I could feel this happy, this settled, until I found you. \n\nThis is our first birthday together, and it's just the start. You are my world, my heart, and my very best friend. \n\nHappy Birthday, gorgeous! 🌸✨";
 
         function startMagic() {
-            // Remove overlay
+            // Fade out overlay
             document.getElementById('overlay').style.opacity = '0';
+            
+            // Play Music immediately
+            const music = document.getElementById('bg-music');
+            music.volume = 0.7; // Set volume slightly lower
+            music.play().catch(error => console.log("Music play failed, user interaction needed"));
+
             setTimeout(() => {
                 document.getElementById('overlay').style.display = 'none';
                 document.getElementById('main-title').classList.add('visible');
-                typeWriter();
-            }, 1500);
+                
+                // Start Tulips growing
+                document.getElementById('tulips-left').classList.add('grow-in');
+                document.getElementById('tulips-right').classList.add('grow-in');
 
-            // Play Music
-            const music = document.getElementById('bg-music');
-            music.play();
+                // Start typing after title appears
+                setTimeout(typeWriter, 1000);
+            }, 1500);
 
             // Start Particle Effect
             initParticles();
@@ -219,11 +379,16 @@
             if (i < message.length) {
                 document.getElementById("typing-text").innerHTML += message.charAt(i);
                 i++;
-                setTimeout(typeWriter, 50);
+                setTimeout(typeWriter, 50); // Adjust typing speed here
+            } else {
+                // After typing finishes, reveal the Blessing Card
+                setTimeout(() => {
+                     document.getElementById('blessingCard').classList.add('visible');
+                }, 1000);
             }
         }
 
-        // Particle System
+        // --- PARTICLE SYSTEM (Updated with flower colors) ---
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -231,7 +396,8 @@
         function initParticles() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            for(let i = 0; i < 50; i++) {
+            particles = [];
+            for(let i = 0; i < 80; i++) { // Increased particle count
                 particles.push(new Particle());
             }
             animate();
@@ -240,21 +406,28 @@
         class Particle {
             constructor() {
                 this.reset();
+                this.y = Math.random() * canvas.height; // Start scattered
             }
             reset() {
                 this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 15 + 5;
-                this.speedY = Math.random() * 1 + 0.5;
+                this.y = canvas.height + Math.random() * 100;
+                this.size = Math.random() * 10 + 3;
+                this.speedY = Math.random() * 1.5 + 0.5;
+                this.speedX = Math.random() * 1 - 0.5; // Slight horizontal drift
                 this.opacity = Math.random() * 0.5 + 0.2;
+                // Randomize colors between pinks and soft rose
+                const colors = ['255, 182, 193', '255, 105, 180', '255, 228, 225'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
             }
             update() {
                 this.y -= this.speedY;
+                this.x += this.speedX;
                 if (this.y < -20) this.reset();
             }
             draw() {
-                ctx.fillStyle = `rgba(255, 182, 193, ${this.opacity})`;
+                ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
                 ctx.beginPath();
+                // Draw tiny circles (petals/bokeh)
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
