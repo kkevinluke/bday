@@ -9,44 +9,50 @@
         :root {
             --gold: #ffd700;
             --white: #ffffff;
-            --deep-rose: #ff3385;
             --night-sky: #050b18;
         }
 
         body, html {
             margin: 0; padding: 0; width: 100%; min-height: 100%;
             overflow-x: hidden; font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(to bottom, #050b18 0%, #162a45 100%);
+            background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
             color: white;
         }
 
-        /* --- VIVID NIGHT CLOUDS --- */
-        .sky-element { position: fixed; pointer-events: none; z-index: 1; opacity: 0; transition: opacity 2s; }
-        .sky-visible { opacity: 0.6 !important; }
-
-        .cloud {
-            background: rgba(255, 255, 255, 0.2); border-radius: 100px; 
-            filter: blur(25px); animation: cloudMove linear infinite;
-            box-shadow: 0 0 40px rgba(255,255,255,0.2);
+        /* --- TWINKLING STARS BACKGROUND --- */
+        #star-field {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
         }
-        .c1 { top: 8%; animation-duration: 35s; width: 350px; height: 100px; }
-        .c2 { top: 25%; animation-duration: 25s; width: 250px; height: 80px; animation-delay: -5s; }
-        .c3 { top: 45%; animation-duration: 40s; width: 300px; height: 90px; animation-delay: -15s; }
-        @keyframes cloudMove { from { left: -400px; } to { left: 110%; } }
+        .static-star {
+            position: absolute; background: white; border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
         /* --- SHOOTING STARS --- */
         .shooting-star {
             position: fixed; height: 2px; background: linear-gradient(-45deg, white, rgba(0,0,0,0));
-            filter: drop-shadow(0 0 6px white); z-index: 0; pointer-events: none;
+            filter: drop-shadow(0 0 6px white); z-index: 1; pointer-events: none;
         }
 
+        /* --- VIVID CLOUDS --- */
+        .sky-element { position: fixed; pointer-events: none; z-index: 1; opacity: 0; transition: opacity 2s; }
+        .sky-visible { opacity: 0.5 !important; }
+        .cloud {
+            background: rgba(255, 255, 255, 0.2); border-radius: 100px; 
+            filter: blur(30px); animation: cloudMove linear infinite;
+        }
+        .c1 { top: 10%; animation-duration: 40s; width: 400px; height: 100px; }
+        .c2 { top: 30%; animation-duration: 30s; width: 300px; height: 80px; animation-delay: -5s; }
+        @keyframes cloudMove { from { left: -450px; } to { left: 110%; } }
+
         /* --- WHITE BIRDS --- */
+        .bird-svg { width: 50px; fill: white; filter: drop-shadow(0 0 10px white); }
         .bird { position: fixed; z-index: 3; animation: fly linear infinite; }
-        .bird-svg { width: 50px; fill: white; filter: drop-shadow(0 0 10px rgba(255,255,255,0.8)); }
         @keyframes fly {
-            0% { transform: translateX(-100px) translateY(0) scale(1); }
-            50% { transform: translateX(50vw) translateY(-60px) scale(1.2); }
-            100% { transform: translateX(110vw) translateY(0) scale(1); }
+            0% { transform: translateX(-100px) translateY(0); }
+            100% { transform: translateX(110vw) translateY(-40px); }
         }
 
         /* --- ENTRANCE --- */
@@ -54,7 +60,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; display: flex; flex-direction: column;
             justify-content: center; align-items: center; z-index: 9999999;
-            transition: opacity 1.5s ease-out;
+            transition: opacity 1.5s;
         }
         .heart-btn-start {
             background: none; border: none; font-size: 7rem; cursor: pointer;
@@ -62,88 +68,85 @@
         }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
 
-        /* --- SPARKLING TITLES --- */
-        #main-container { position: relative; z-index: 10; text-align: center; padding: 50px 20px; max-width: 850px; margin: 0 auto; }
-        .title-group { opacity: 0; transform: translateY(20px); transition: 1s ease; }
-        .visible { opacity: 1 !important; transform: translateY(0) !important; }
-
+        /* --- TITLES --- */
+        #main-container { position: relative; z-index: 10; text-align: center; padding: 60px 20px; max-width: 850px; margin: 0 auto; transition: opacity 1s; }
         h1 { 
-            font-family: 'Dancing Script'; font-size: 4.8rem; color: #fff; 
-            text-shadow: 0 0 10px #fff, 0 0 20px var(--gold), 0 0 30px var(--gold);
-            margin: 0; animation: sparkleTitle 2s infinite alternate;
+            font-family: 'Dancing Script'; font-size: 4.5rem; color: #fff; 
+            text-shadow: 0 0 15px #fff, 0 0 30px var(--gold);
+            margin: 0; animation: sparkle 2s infinite alternate;
         }
-        @keyframes sparkleTitle { from { opacity: 0.8; } to { opacity: 1; text-shadow: 0 0 20px #fff, 0 0 40px var(--gold); } }
-        .subtitle { font-size: 2rem; color: var(--gold); font-family: 'Dancing Script'; margin-top: 5px; }
+        @keyframes sparkle { from { opacity: 0.8; } to { opacity: 1; } }
 
-        /* --- TEXT BOXES (GLASSMORPHISM) --- */
+        /* --- GLASS CARDS (CLEAN - NO VINES) --- */
         .card-style {
-            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px);
-            padding: 50px; border-radius: 45px; margin: 80px auto;
-            position: relative; border: 1px solid rgba(255,255,255,0.2); 
-            line-height: 1.8; font-size: 1.35rem; text-align: justify;
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
+            padding: 50px; border-radius: 40px; margin: 60px auto;
+            border: 1px solid rgba(255,255,255,0.2); line-height: 1.8; font-size: 1.3rem;
+            position: relative; text-align: justify;
         }
-
-        /* VINES & FLOWERS */
-        .vine { position: absolute; width: 180px; pointer-events: none; z-index: 11; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); }
-        .v-top-right { top: -30px; right: -30px; content: url('https://pngimg.com/uploads/vine/vine_PNG33.png'); transform: rotate(90deg); }
-        .v-bottom-left { bottom: -30px; left: -30px; content: url('https://pngimg.com/uploads/vine/vine_PNG33.png'); transform: rotate(-90deg); }
-        
         .flower-corner { position: absolute; font-size: 3.5rem; z-index: 12; }
-        .f1 { top: -30px; left: -20px; }
-        .f2 { bottom: -30px; right: -20px; }
+        .f1 { top: -35px; left: -20px; }
+        .f2 { bottom: -35px; right: -20px; }
 
-        /* --- SPARKLY HEART BUTTON --- */
+        /* --- FINALE HEART --- */
         .heart-click {
-            background: none; border: none; font-size: 5rem; cursor: pointer;
-            filter: drop-shadow(0 0 15px var(--gold));
-            transition: 0.3s; animation: heartSparkle 1s infinite alternate;
+            background: none; border: none; font-size: 6rem; cursor: pointer;
+            filter: drop-shadow(0 0 15px var(--gold)); animation: heartSparkle 1s infinite alternate;
         }
-        @keyframes heartSparkle { 
-            from { transform: scale(1); filter: drop-shadow(0 0 10px var(--gold)); } 
-            to { transform: scale(1.1); filter: drop-shadow(0 0 25px #fff); } 
-        }
+        @keyframes heartSparkle { from { transform: scale(1); } to { transform: scale(1.15); } }
 
         #final-scene {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #050b18; z-index: 999999; display: none;
+            background: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
+            z-index: 999999; display: none; text-align: center;
         }
-        #flower-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        #flower-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        
+        .restart-btn {
+            position: relative; z-index: 1000; margin-top: 80vh;
+            padding: 15px 30px; border-radius: 30px; border: 2px solid var(--gold);
+            background: rgba(0,0,0,0.7); color: var(--gold); font-family: 'Dancing Script';
+            font-size: 1.8rem; cursor: pointer; transition: 0.3s;
+        }
+        .restart-btn:hover { background: var(--gold); color: black; }
 
+        /* MOBILE FIXES */
+        @media (max-width: 600px) {
+            h1 { font-size: 3rem; }
+            .card-style { padding: 30px; font-size: 1.1rem; }
+            .heart-btn-start { font-size: 5rem; }
+        }
     </style>
 </head>
 <body>
 
     <div id="overlay">
         <button class="heart-btn-start" onclick="startMagic()">💖</button>
-        <p style="font-size: 1.8rem; margin-top: 20px; color: var(--gold); font-family: 'Dancing Script';">Touch the Heart, Jessy.</p>
+        <p style="color:var(--gold); font-family:'Dancing Script'; font-size:1.8rem;">Enter the Kingdom, Jessy.</p>
     </div>
 
+    <div id="star-field"></div>
     <div id="star-container"></div>
     <div class="sky-element cloud c1"></div>
     <div class="sky-element cloud c2"></div>
-    <div class="sky-element cloud c3"></div>
-    <div class="sky-element bird" style="top:15%; animation-duration:12s;"><svg class="bird-svg" viewBox="0 0 512 512"><path d="M496.1 217c-41.8-28.6-100.5-47.8-152.7-23.4 31.2-29.2 88.4-34.6 140.7 8.9 3.9 3.2 1.3 9.5-3.9 8.7-57.2-8.6-115.7-3.8-156.3 23.6-3.3 2.2-1.6 7.4 2.3 7 64.9-6.3 119.9 5.5 161.2 38.3 1.3 1 2.7 2.3 4.2 3.8 6 6 2.7 16.7-6 17.2-82.7 4.4-159.6-21.2-226.8-70.4 18 18.3 46.2 38 75.9 51.6 3.6 1.7 3.9 6.8-.3 9.3-47 27.7-111.7 50.7-190.5 32.2-3.6-.8-4.7-5.7-1.5-7.4 53.3-29.1 81.9-60.3 96-89.2C36.2 238.9 4.7 251.4 1.3 252.6c-4.1 1.5-6-4.5-2.2-6.9 83-53.7 211-158.3 223.8-168.8 3.6-2.9 9.1-1 9.7 3.6 4.1 29.4-4.9 60.8-21 88.1 60.1-40.2 108.8-80.9 158.7-112.8 4.1-2.6 9.2 1.1 8 5.7-8.1 31-18 58.8-33 92.5 70-41 117.3-8.2 144 22.6 6.7 7.7 11.8 20.3 13.7 30.5 1.6 8.8-7.2 16-15 10.7z"/></svg></div>
+    
+    <div class="sky-element bird" style="top:20%; animation-duration:15s;"><svg class="bird-svg" viewBox="0 0 512 512"><path d="M496.1 217c-41.8-28.6-100.5-47.8-152.7-23.4 31.2-29.2 88.4-34.6 140.7 8.9 3.9 3.2 1.3 9.5-3.9 8.7-57.2-8.6-115.7-3.8-156.3 23.6-3.3 2.2-1.6 7.4 2.3 7 64.9-6.3 119.9 5.5 161.2 38.3 1.3 1 2.7 2.3 4.2 3.8 6 6 2.7 16.7-6 17.2-82.7 4.4-159.6-21.2-226.8-70.4 18 18.3 46.2 38 75.9 51.6 3.6 1.7 3.9 6.8-.3 9.3-47 27.7-111.7 50.7-190.5 32.2-3.6-.8-4.7-5.7-1.5-7.4 53.3-29.1 81.9-60.3 96-89.2C36.2 238.9 4.7 251.4 1.3 252.6c-4.1 1.5-6-4.5-2.2-6.9 83-53.7 211-158.3 223.8-168.8 3.6-2.9 9.1-1 9.7 3.6 4.1 29.4-4.9 60.8-21 88.1 60.1-40.2 108.8-80.9 158.7-112.8 4.1-2.6 9.2 1.1 8 5.7-8.1 31-18 58.8-33 92.5 70-41 117.3-8.2 144 22.6 6.7 7.7 11.8 20.3 13.7 30.5 1.6 8.8-7.2 16-15 10.7z"/></svg></div>
 
     <div id="main-container">
-        <div class="title-group" id="title-group">
-            <h1>Happy Birthday, Jessy!</h1>
-            <div class="subtitle">Queen of my Heart 👑✨💖</div>
-        </div>
+        <h1>Happy Birthday, Jessy!</h1>
+        <div style="font-size:2rem; color:var(--gold); font-family:'Dancing Script';">Queen of my Heart 👑✨💖</div>
 
         <div class="card-style">
-            <img class="vine v-top-right">
-            <img class="vine v-bottom-left">
             <span class="flower-corner f1">🌷🌸</span>
             <span class="flower-corner f2">🌺🌷</span>
             <div id="typing-text"></div>
         </div>
 
-        <div class="card-style blessing-card" id="blessingCard">
-            <img class="vine v-top-right">
-            <img class="vine v-bottom-left">
+        <div class="card-style" id="blessingCard" style="opacity:0; transition:1s;">
             <span class="flower-corner f1">🌻🌷</span>
             <span class="flower-corner f2">🌷🌼</span>
-            <h2 style="text-align: center; font-family: 'Dancing Script'; font-size: 3rem; color: var(--gold); margin-top: 0;">My Wish For You, Jessy Baby</h2>
+            <h2 style="text-align: center; font-family: 'Dancing Script'; font-size: 2.8rem; color: var(--gold); margin-top: 0;">My Wish For You, Jessy Baby</h2>
             My darling Jess, on this incredibly special day, my heart is just overflowing for you. It’s not enough to just say "I love you," though I do, deeper than I ever thought possible. I want to speak every beautiful thing into your existence.
             <br><br>
             I pray that this new year of your life is drenched in sunshine and filled with the kind of wonder that makes you stop and stare. I pray for an abundance of beauty in your daily life, for peace in your heart, and for dreams that don't just stay dreams, but become your reality.
@@ -152,11 +155,11 @@
             <br><br>
             Your parents, your family, this world and me are incredibly lucky to have you in it, Jess. Keep shining.
             <br><br>
-            <span style="font-family: 'Dancing Script'; font-size: 2.8rem; color: var(--gold); display: block; text-align: right;">All my love, Kevin.</span>
+            <span style="font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--gold); display: block; text-align: right;">All my love, Kevin.</span>
         </div>
 
-        <div id="finalTrigger" style="opacity:0; transition: 1s;">
-            <p style="font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--gold);">Ready for the grand finale?</p>
+        <div id="finalTrigger" style="opacity:0; transition:1s; margin-top: 40px; padding-bottom: 50px;">
+            <p style="font-family:'Dancing Script'; font-size:2.5rem; color:var(--gold);">Ready for the grand finale?</p>
             <button class="heart-click" onclick="launchFinale()">💖✨</button>
             <p style="color: #aaa;">(Click the Heart)</p>
         </div>
@@ -164,6 +167,7 @@
 
     <div id="final-scene">
         <canvas id="flower-canvas"></canvas>
+        <button class="restart-btn" onclick="location.reload()">✨ Start All Over ✨</button>
     </div>
 
     <audio id="bg-music" loop>
@@ -171,17 +175,33 @@
     </audio>
 
     <script>
+        // --- STAR SYSTEM ---
+        function initStars() {
+            const field = document.getElementById('star-field');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'static-star';
+                const size = Math.random() * 2 + 1 + 'px';
+                star.style.width = size; star.style.height = size;
+                star.style.top = Math.random() * 100 + '%';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+                field.appendChild(star);
+            }
+        }
+        initStars();
+
         const messageText = "My Dearest Jess,\n\nSince the moment you walked into my life, everything changed in the best way possible. This is your first birthday together with me, the first one in the JessyKev Kingdom, and I promise it's just the start of a lifetime of celebrations. You are my world, my heart, and my very best friend. \n\nHappy Birthday, gorgeous! 🌸✨";
 
         function startMagic() {
             document.getElementById('overlay').style.opacity = '0';
-            document.getElementById('bg-music').play();
+            const music = document.getElementById('bg-music');
+            music.play();
             setTimeout(() => {
                 document.getElementById('overlay').style.display = 'none';
-                document.getElementById('title-group').classList.add('visible');
                 document.querySelectorAll('.sky-element').forEach(el => el.classList.add('sky-visible'));
                 typeWriter();
-                setInterval(createShootingStar, 3500);
+                setInterval(createShootingStar, 4000);
             }, 1500);
         }
 
@@ -190,9 +210,9 @@
             if (charIndex < messageText.length) {
                 document.getElementById("typing-text").innerHTML += messageText.charAt(charIndex);
                 charIndex++;
-                setTimeout(typeWriter, 40);
+                setTimeout(typeWriter, 45);
             } else {
-                document.getElementById('blessingCard').classList.add('visible');
+                document.getElementById('blessingCard').style.opacity = '1';
                 document.getElementById('finalTrigger').style.opacity = '1';
             }
         }
@@ -200,14 +220,15 @@
         function createShootingStar() {
             const star = document.createElement('div');
             star.className = 'shooting-star';
-            star.style.left = Math.random() * 80 + 'vw';
-            star.style.top = Math.random() * 50 + 'vh';
+            star.style.left = Math.random() * 70 + 'vw';
+            star.style.top = Math.random() * 40 + 'vh';
             star.style.width = Math.random() * 100 + 100 + 'px';
             document.getElementById('star-container').appendChild(star);
-            star.animate([{ transform: 'translateX(0) translateY(0)', opacity: 1 }, { transform: 'translateX(600px) translateY(600px)', opacity: 0 }], { duration: 1500, easing: 'ease-in' });
-            setTimeout(() => star.remove(), 1500);
+            star.animate([{ transform: 'translateX(0) translateY(0)', opacity: 1 }, { transform: 'translateX(500px) translateY(500px)', opacity: 0 }], { duration: 1200 });
+            setTimeout(() => star.remove(), 1200);
         }
 
+        // --- EXPLOSION FINALE ---
         function launchFinale() {
             document.getElementById('main-container').style.opacity = '0';
             setTimeout(() => {
@@ -220,12 +241,12 @@
         const canvas = document.getElementById('flower-canvas');
         const ctx = canvas.getContext('2d');
         let petals = [];
-        const colors = ['#f8bbd0', '#fce4ec', '#fff9c4', '#ffffff', '#e1bee7', '#ff80ab'];
+        const colors = ['#f8bbd0', '#fce4ec', '#fff9c4', '#ffffff', '#e1bee7', '#ff80ab', '#ffeb3b'];
 
         function initFlowerStorm() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            for(let i = 0; i < 450; i++) petals.push(new Petal());
+            for(let i = 0; i < 500; i++) petals.push(new Petal());
             animatePetals();
         }
 
@@ -234,7 +255,7 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height - canvas.height;
-                this.size = Math.random() * 15 + 8;
+                this.size = Math.random() * 10 + 10;
                 this.speedY = Math.random() * 3 + 2;
                 this.speedX = (Math.random() * 4) - 2;
                 this.color = colors[Math.floor(Math.random() * colors.length)];
@@ -251,7 +272,7 @@
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.rotation * Math.PI / 180);
                 ctx.fillStyle = this.color;
-                ctx.globalAlpha = 0.9;
+                ctx.globalAlpha = 0.8;
                 ctx.beginPath();
                 ctx.ellipse(0, 0, this.size/2, this.size, 0, 0, 2 * Math.PI);
                 ctx.fill();
@@ -264,6 +285,11 @@
             petals.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animatePetals);
         }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
     </script>
 </body>
 </html>
