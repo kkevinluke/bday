@@ -9,7 +9,7 @@
         :root {
             --primary-pink: #ff9eb5;
             --deep-rose: #d63384;
-            --purple-royal: #9b5de5;
+            --purple-royal: #6a0572;
             --text-color: #4a4a4a;
             --gold-shine: #ffd700;
         }
@@ -17,7 +17,7 @@
         body, html {
             margin: 0; padding: 0; width: 100%; min-height: 100%;
             overflow-x: hidden; font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 50%, #f0f8ff 100%); /* Slightly bluer sky tone */
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 50%, #f0f8ff 100%);
             transition: background 2s ease;
         }
 
@@ -25,7 +25,7 @@
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #fff; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 9999;
+            justify-content: center; align-items: center; z-index: 999999;
             transition: opacity 1.5s ease-out;
         }
         .heart-btn-start {
@@ -36,34 +36,30 @@
 
         #canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1; }
 
-        /* --- BACKGROUND ANIMATIONS (CLOUDS & BIRDS) --- */
-        .bg-element { position: fixed; pointer-events: none; z-index: 2; opacity: 0; transition: opacity 2s ease 1s; }
-        .bg-visible { opacity: 1; }
+        /* --- DYNAMIC BACKGROUND (CLOUDS & BIRDS) --- */
+        .bg-element { position: fixed; pointer-events: none; z-index: 2; opacity: 0; transition: opacity 2s ease; }
+        .bg-visible { opacity: 1 !important; }
 
-        /* Clouds made with box-shadows for softness */
         .cloud {
-             background: transparent; border-radius: 50%;
-             box-shadow: #fff 65px -15px 0 -5px, #fff 25px -25px, #fff 30px 10px, #fff 60px 15px 0 -10px, #fff 85px 5px 0 -5px;
-             height: 50px; width: 50px; animation: cloudMove linear infinite;
+             background: white; border-radius: 100px; width: 120px; height: 40px;
+             filter: blur(10px); animation: cloudMove linear infinite;
         }
-        .c1 { top: 10%; left: -100px; transform: scale(1.5); animation-duration: 45s; opacity: 0.7; }
-        .c2 { top: 30%; left: -100px; transform: scale(1); animation-duration: 35s; animation-delay: -15s; opacity: 0.6; }
-        .c3 { top: 5%; left: -100px; transform: scale(0.8); animation-duration: 55s; animation-delay: -5s; opacity: 0.8; }
-        @keyframes cloudMove { from { left: -150px; } to { left: 110%; } }
+        .c1 { top: 10%; animation-duration: 25s; opacity: 0.8; }
+        .c2 { top: 25%; animation-duration: 18s; animation-delay: -5s; opacity: 0.6; }
+        .c3 { top: 40%; animation-duration: 30s; animation-delay: -10s; opacity: 0.7; }
+        @keyframes cloudMove { from { left: -200px; } to { left: 110%; } }
 
-        /* Birds SVG */
-        .bird-container { position: fixed; z-index: 3; animation: fly linear infinite; opacity: 0; transition: opacity 2s ease 2s;}
-        .bird-svg { width: 40px; height: auto; fill: #4a4a4a; }
-        .b1 { top: 15%; animation-duration: 20s; animation-delay: -5s; }
-        .b2 { top: 25%; animation-duration: 25s; animation-delay: -12s; transform: scale(0.8); }
+        .bird-container { position: fixed; z-index: 3; animation: fly linear infinite; }
+        .bird-svg { width: 30px; height: auto; fill: #555; }
+        .b1 { top: 15%; animation-duration: 12s; }
+        .b2 { top: 30%; animation-duration: 15s; animation-delay: -3s; }
         @keyframes fly {
             0% { transform: translateX(-100px) translateY(0) rotate(5deg); }
-            50% { transform: translateX(50vw) translateY(-30px) rotate(-5deg); }
+            50% { transform: translateX(50vw) translateY(-50px) rotate(-5deg); }
             100% { transform: translateX(calc(100vw + 100px)) translateY(0) rotate(5deg); }
         }
 
-
-        /* --- MAIN CONTAINER & TYPOGRAPHY --- */
+        /* --- MAIN CONTENT --- */
         #main-container {
             position: relative; z-index: 10; text-align: center;
             padding: 50px 20px 100px 20px; max-width: 900px; margin: 0 auto;
@@ -73,96 +69,63 @@
         h1 {
             font-family: 'Dancing Script', cursive; font-size: 5rem; color: var(--deep-rose);
             margin-bottom: 10px; opacity: 0; transform: translateY(20px); transition: all 1s ease;
-            text-shadow: 3px 3px 6px rgba(255, 105, 180, 0.3);
         }
-        .subtitle { font-size: 1.4rem; color: #888; margin-bottom: 50px; font-weight: 700; letter-spacing: 1px; }
+        .visible { opacity: 1 !important; transform: translateY(0) !important; }
 
-        /* --- GALLERY --- */
-        .gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 50px; perspective: 1000px; }
-        .polaroid {
-            background: white; padding: 15px 15px 50px 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); transform: rotate(var(--r));
-            transition: all 0.4s ease; width: 200px; position: relative;
-        }
-        .polaroid:hover { transform: scale(1.1) rotate(0deg) translateZ(20px); z-index: 20; box-shadow: 0 25px 50px rgba(214, 51, 132, 0.3); }
-        .polaroid img { width: 100%; height: 200px; object-fit: cover; border-bottom: 1px solid #eee; }
-        .polaroid span { font-family: 'Dancing Script'; font-size: 1.5rem; display: block; margin-top: 20px; color: var(--deep-rose); }
+        .gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 50px; }
+        .polaroid { background: white; padding: 15px 15px 50px 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 200px; transform: rotate(var(--r)); }
+        .polaroid img { width: 100%; height: 200px; object-fit: cover; }
 
-        /* --- MESSAGE CARDS --- */
+        /* --- CARDS (JUSTIFIED) --- */
         .card-style {
-            max-width: 750px; margin: 60px auto; background: rgba(255, 255, 255, 0.92);
-            padding: 50px; border-radius: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            backdrop-filter: blur(10px); border: 3px solid rgba(255, 255, 255, 0.8);
-            text-align: justify; position: relative; overflow: hidden;
+            max-width: 750px; margin: 60px auto; background: rgba(255, 255, 255, 0.9);
+            padding: 50px; border-radius: 25px; text-align: justify; border: 3px solid white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
         }
-        
-        .card-style::before, .card-style::after {
-            content: ''; position: absolute; width: 100px; height: 100px;
-            background-size: contain; background-repeat: no-repeat; opacity: 0.15; z-index: -1;
-        }
-        .card-style::before { top: -20px; left: -20px; transform: rotate(-20deg); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ff69b4' d='M50 0C40 30 20 40 0 50C20 60 40 70 50 100C60 70 80 60 100 50C80 40 60 30 50 0Z'/%3E%3C/svg%3E"); }
-        .card-style::after { bottom: -20px; right: -20px; transform: rotate(20deg); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23d63384' d='M50 0C40 30 20 40 0 50C20 60 40 70 50 100C60 70 80 60 100 50C80 40 60 30 50 0Z'/%3E%3C/svg%3E"); }
+        #typing-text { font-size: 1.35rem; line-height: 1.9; color: var(--text-color); white-space: pre-wrap; }
 
-        #typing-text { font-size: 1.35rem; line-height: 1.9; color: var(--text-color); min-height: 150px; white-space: pre-wrap; }
+        .blessing-card { opacity: 0; transform: translateY(40px); transition: all 1.5s ease; }
+        .blessing-title { font-family: 'Dancing Script'; font-size: 3rem; color: var(--deep-rose); text-align: center; margin-bottom: 20px; }
+        .blessing-text { font-size: 1.3rem; line-height: 2.2; color: #444; }
 
-        .blessing-card {
-            background: linear-gradient(to bottom, #fffbfc, #fff0f5);
-            border: 3px double var(--deep-rose); opacity: 0; transform: translateY(40px); transition: all 1.5s ease;
-        }
-        .blessing-title { font-family: 'Dancing Script'; font-size: 3rem; color: var(--deep-rose); margin-bottom: 30px; text-align: center; }
-        .blessing-text { font-size: 1.3rem; line-height: 2.2; color: #444; font-weight: 500; }
-        .final-signature { font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--deep-rose); margin-top: 50px; display: block; text-align: right; }
+        /* --- THE FINALE TRIGGER --- */
+        .final-trigger-section { margin-top: 100px; opacity: 0; transition: opacity 1s; }
+        .final-heart-btn { font-size: 6rem; background: none; border: none; cursor: pointer; animation: heartbeat 1.2s infinite; }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-        /* --- STATIC DECORATIONS --- */
-        .side-tulips { position: fixed; height: 400px; width: auto; z-index: 1; opacity: 0.5; pointer-events: none; transition: opacity 1s;}
-        .st-left { left: -50px; top: 20%; transform: rotate(10deg); }
-        .st-right { right: -50px; top: 40%; transform: scaleX(-1) rotate(10deg); }
-        .hide-on-mobile { display: block; }
-
-        /* --- FINALE TRIGGER & SCENE --- */
-        .final-trigger-section { margin-top: 120px; padding-bottom: 50px; opacity: 0; transition: opacity 1s ease; text-align: center; }
-        .final-heart-btn {
-            font-size: 6rem; background: none; border: none; cursor: pointer;
-            filter: drop-shadow(0 0 15px red); animation: heartbeat 1.2s infinite;
-        }
-        @keyframes heartbeat { 0% { transform: scale(1); } 15% { transform: scale(1.25); } 30% { transform: scale(1); } 45% { transform: scale(1.15); } 60% { transform: scale(1); } }
-
+        /* --- THE MASSIVE FINALE SCENE --- */
         #final-scene {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            /* Dramatic Royal Purple Sunset Gradient */
-            background: linear-gradient(to bottom, #4a0e4e, #8e2de2, #d63384, #ff69b4);
-            z-index: 99999; display: none; 
-            flex-direction: column; justify-content: center; align-items: center; overflow: hidden;
+            background: linear-gradient(to bottom, #2d0a31, #6a0572, #ab007d, #ff69b4);
+            z-index: 100000; display: none; align-items: center; justify-content: center; overflow: hidden;
         }
 
-        #final-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        #final-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100001; }
 
-        .final-text-container { z-index: 100; text-align: center; opacity: 0; transition: all 1s ease 1s; transform: scale(0.8); }
-        .final-text-visible { opacity: 1 !important; transform: scale(1) !important; }
+        .final-text-container {
+            position: relative; z-index: 100002; /* Sits ABOVE the canvas petals */
+            text-align: center; opacity: 0; transform: scale(0.5);
+            transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(0, 0, 0, 0.1); padding: 40px; border-radius: 50px; /* Subtle dark glow to help text pop */
+        }
         
+        .final-text-visible { opacity: 1 !important; transform: scale(1) !important; }
+
         .final-h1 {
-            font-family: 'Dancing Script'; font-size: 7rem; color: white;
-            /* --- MASSIVE BORDERED TEXT EFFECT --- */
-            -webkit-text-stroke: 3px var(--gold-shine); /* Gold border */
-            text-shadow: 
-                0 0 20px #ff1493, 
-                0 0 40px #ff1493, 
-                4px 4px 0px #d63384; /* Hard shadow for depth */
-            margin-bottom: 30px; line-height: 1.1; animation: floatText 3s ease-in-out infinite alternate;
+            font-family: 'Dancing Script'; font-size: 8rem; color: white;
+            /* GOLD BORDER AND MASSIVE GLOW */
+            -webkit-text-stroke: 3px #ffd700;
+            text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 60px #ff00ff, 5px 5px 15px rgba(0,0,0,0.5);
+            margin: 0; line-height: 1.1;
         }
         .final-h2 {
-            font-family: 'Quicksand'; font-size: 3rem; color: #ffd700; font-weight: 700;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            font-family: 'Quicksand'; font-size: 3.5rem; color: #ffd700; font-weight: 700;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8); margin-top: 20px;
         }
-        @keyframes floatText { from { transform: translateY(0); } to { transform: translateY(-20px); } }
 
-        .visible { opacity: 1 !important; transform: translateY(0) !important; }
-        
         @media (max-width: 768px) {
-            h1 { font-size: 3.5rem; } .final-h1 { font-size: 4rem; -webkit-text-stroke: 2px var(--gold-shine); } .final-h2 { font-size: 2rem; }
-            .card-style { padding: 30px 20px; margin: 30px 15px; }
-            .hide-on-mobile { display: none; } 
-            .polaroid { width: 100%; max-width: 280px; }
+            .final-h1 { font-size: 4.5rem; -webkit-text-stroke: 1.5px #ffd700; }
+            .final-h2 { font-size: 2rem; }
         }
     </style>
 </head>
@@ -178,41 +141,20 @@
     <div class="bg-element cloud c1"></div>
     <div class="bg-element cloud c2"></div>
     <div class="bg-element cloud c3"></div>
-
-    <div class="bird-container b1 bg-element">
-        <svg class="bird-svg" viewBox="0 0 512 512"><path d="M496.1 217c-41.8-28.6-100.5-47.8-152.7-23.4 31.2-29.2 88.4-34.6 140.7 8.9 3.9 3.2 1.3 9.5-3.9 8.7-57.2-8.6-115.7-3.8-156.3 23.6-3.3 2.2-1.6 7.4 2.3 7 64.9-6.3 119.9 5.5 161.2 38.3 1.3 1 2.7 2.3 4.2 3.8 6 6 2.7 16.7-6 17.2-82.7 4.4-159.6-21.2-226.8-70.4 18 18.3 46.2 38 75.9 51.6 3.6 1.7 3.9 6.8-.3 9.3-47 27.7-111.7 50.7-190.5 32.2-3.6-.8-4.7-5.7-1.5-7.4 53.3-29.1 81.9-60.3 96-89.2C36.2 238.9 4.7 251.4 1.3 252.6c-4.1 1.5-6-4.5-2.2-6.9 83-53.7 211-158.3 223.8-168.8 3.6-2.9 9.1-1 9.7 3.6 4.1 29.4-4.9 60.8-21 88.1 60.1-40.2 108.8-80.9 158.7-112.8 4.1-2.6 9.2 1.1 8 5.7-8.1 31-18 58.8-33 92.5 70-41 117.3-8.2 144 22.6 6.7 7.7 11.8 20.3 13.7 30.5 1.6 8.8-7.2 16-15 10.7z"/></svg>
-    </div>
-    <div class="bird-container b2 bg-element">
-        <svg class="bird-svg" viewBox="0 0 512 512"><path d="M496.1 217c-41.8-28.6-100.5-47.8-152.7-23.4 31.2-29.2 88.4-34.6 140.7 8.9 3.9 3.2 1.3 9.5-3.9 8.7-57.2-8.6-115.7-3.8-156.3 23.6-3.3 2.2-1.6 7.4 2.3 7 64.9-6.3 119.9 5.5 161.2 38.3 1.3 1 2.7 2.3 4.2 3.8 6 6 2.7 16.7-6 17.2-82.7 4.4-159.6-21.2-226.8-70.4 18 18.3 46.2 38 75.9 51.6 3.6 1.7 3.9 6.8-.3 9.3-47 27.7-111.7 50.7-190.5 32.2-3.6-.8-4.7-5.7-1.5-7.4 53.3-29.1 81.9-60.3 96-89.2C36.2 238.9 4.7 251.4 1.3 252.6c-4.1 1.5-6-4.5-2.2-6.9 83-53.7 211-158.3 223.8-168.8 3.6-2.9 9.1-1 9.7 3.6 4.1 29.4-4.9 60.8-21 88.1 60.1-40.2 108.8-80.9 158.7-112.8 4.1-2.6 9.2 1.1 8 5.7-8.1 31-18 58.8-33 92.5 70-41 117.3-8.2 144 22.6 6.7 7.7 11.8 20.3 13.7 30.5 1.6 8.8-7.2 16-15 10.7z"/></svg>
-    </div>
-
-
-    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 300'%3E%3Cg fill='none' stroke='%237fb069' stroke-width='4'%3E%3Cpath d='M100 300Q90 200 100 100'/%3E%3Cpath d='M100 250Q60 200 70 150'/%3E%3Cpath d='M100 280Q140 230 130 180'/%3E%3C/g%3E%3Cg fill='%23ff69b4'%3E%3Cpath d='M100 100C80 60 120 60 100 100z'/%3E%3Cpath d='M70 150C50 110 90 110 70 150z'/%3E%3Cpath d='M130 180C110 140 150 140 130 180z'/%3E%3C/g%3E%3C/svg%3E" class="side-tulips st-left hide-on-mobile" alt="decoration">
-    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 300'%3E%3Cg fill='none' stroke='%237fb069' stroke-width='4'%3E%3Cpath d='M100 300Q110 200 100 100'/%3E%3Cpath d='M100 250Q140 200 130 150'/%3E%3C/g%3E%3Cg fill='%23d63384'%3E%3Cpath d='M100 100C80 60 120 60 100 100z'/%3E%3Cpath d='M130 150C110 110 150 110 130 150z'/%3E%3C/g%3E%3C/svg%3E" class="side-tulips st-right hide-on-mobile" alt="decoration">
-
+    <div class="bg-element bird-container b1"><svg class="bird-svg" viewBox="0 0 512 512"><path d="M496.1 217c-41.8-28.6-100.5-47.8-152.7-23.4 31.2-29.2 88.4-34.6 140.7 8.9 3.9 3.2 1.3 9.5-3.9 8.7-57.2-8.6-115.7-3.8-156.3 23.6-3.3 2.2-1.6 7.4 2.3 7 64.9-6.3 119.9 5.5 161.2 38.3 1.3 1 2.7 2.3 4.2 3.8 6 6 2.7 16.7-6 17.2-82.7 4.4-159.6-21.2-226.8-70.4 18 18.3 46.2 38 75.9 51.6 3.6 1.7 3.9 6.8-.3 9.3-47 27.7-111.7 50.7-190.5 32.2-3.6-.8-4.7-5.7-1.5-7.4 53.3-29.1 81.9-60.3 96-89.2C36.2 238.9 4.7 251.4 1.3 252.6c-4.1 1.5-6-4.5-2.2-6.9 83-53.7 211-158.3 223.8-168.8 3.6-2.9 9.1-1 9.7 3.6 4.1 29.4-4.9 60.8-21 88.1 60.1-40.2 108.8-80.9 158.7-112.8 4.1-2.6 9.2 1.1 8 5.7-8.1 31-18 58.8-33 92.5 70-41 117.3-8.2 144 22.6 6.7 7.7 11.8 20.3 13.7 30.5 1.6 8.8-7.2 16-15 10.7z"/></svg></div>
+    <div class="bg-element bird-container b2"><svg class="bird-svg" viewBox="0 0 512 512"><path d="M496.1 217c-41.8-28.6-100.5-47.8-152.7-23.4 31.2-29.2 88.4-34.6 140.7 8.9 3.9 3.2 1.3 9.5-3.9 8.7-57.2-8.6-115.7-3.8-156.3 23.6-3.3 2.2-1.6 7.4 2.3 7 64.9-6.3 119.9 5.5 161.2 38.3 1.3 1 2.7 2.3 4.2 3.8 6 6 2.7 16.7-6 17.2-82.7 4.4-159.6-21.2-226.8-70.4 18 18.3 46.2 38 75.9 51.6 3.6 1.7 3.9 6.8-.3 9.3-47 27.7-111.7 50.7-190.5 32.2-3.6-.8-4.7-5.7-1.5-7.4 53.3-29.1 81.9-60.3 96-89.2C36.2 238.9 4.7 251.4 1.3 252.6c-4.1 1.5-6-4.5-2.2-6.9 83-53.7 211-158.3 223.8-168.8 3.6-2.9 9.1-1 9.7 3.6 4.1 29.4-4.9 60.8-21 88.1 60.1-40.2 108.8-80.9 158.7-112.8 4.1-2.6 9.2 1.1 8 5.7-8.1 31-18 58.8-33 92.5 70-41 117.3-8.2 144 22.6 6.7 7.7 11.8 20.3 13.7 30.5 1.6 8.8-7.2 16-15 10.7z"/></svg></div>
 
     <div id="main-container">
         <h1 id="main-title">Happy Birthday, Jessy!</h1>
         <p class="subtitle">The Queen of my world 👑</p>
 
         <div class="gallery">
-             <div class="polaroid" style="--r: -3deg;">
-                <img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?auto=format&fit=crop&w=500&q=60" alt="Us">
-                <span>My favorite view</span>
-            </div>
-            <div class="polaroid" style="--r: 4deg;">
-                <img src="https://images.unsplash.com/photo-1625495556616-37c682873ad7?auto=format&fit=crop&w=500&q=60" alt="Us">
-                <span>Jessy Cutes smile</span>
-            </div>
-            <div class="polaroid" style="--r: -2deg;">
-                <img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=500&q=60" alt="Us">
-                <span>Birthday Girl</span>
-            </div>
+            <div class="polaroid" style="--r: -3deg;"><img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?auto=format&fit=crop&w=500&q=60"></div>
+            <div class="polaroid" style="--r: 4deg;"><img src="https://images.unsplash.com/photo-1625495556616-37c682873ad7?auto=format&fit=crop&w=500&q=60"></div>
+            <div class="polaroid" style="--r: -2deg;"><img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=500&q=60"></div>
         </div>
 
-        <div class="card-style message-card" style="margin-top: 80px;">
-            <div id="typing-text"></div>
-        </div>
+        <div class="card-style message-card"><div id="typing-text"></div></div>
 
         <div class="card-style blessing-card" id="blessingCard">
             <div class="blessing-title">My Wish For You, Jessy Baby</div>
@@ -225,24 +167,22 @@
                 <br><br>
                 Your parents, your family, this world and me are incredibly lucky to have you in it, Jess. Keep shining.
             </div>
-            <span class="final-signature">All my love, Kevin.</span>
+            <span style="font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--deep-rose); display: block; text-align: right; margin-top: 30px;">All my love, Kevin.</span>
         </div>
 
          <div class="final-trigger-section" id="finalTrigger">
-            <p style="font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--deep-rose); margin-bottom: 30px;">Ready for the grand finale?</p>
+            <p style="font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--deep-rose);">Ready for the grand finale?</p>
             <button class="final-heart-btn" onclick="triggerEpicFinale()">❤️</button>
-            <p style="font-family: 'Quicksand'; font-size: 1.2rem; color: #888; margin-top: 10px;">(Click for explosion)</p>
          </div>
-
     </div>
 
     <div id="final-scene">
-        <canvas id="final-canvas"></canvas> <div class="final-text-container" id="finalText">
+        <canvas id="final-canvas"></canvas>
+        <div class="final-text-container" id="finalText">
             <h1 class="final-h1">Happy Birthday<br>Jessy Cutes!</h1>
             <h2 class="final-h2">God Bless You Darling Baby.</h2>
         </div>
     </div>
-
 
     <audio id="bg-music" loop>
         <source src="https://www.chosic.com/wp-content/uploads/2022/03/Dreams-Come-True.mp3" type="audio/mpeg">
@@ -251,27 +191,18 @@
     <script>
         const message = "My Dearest Jess,\n\nSince the moment you walked into my life, everything changed in the best way possible. I never knew I could feel this happy, this settled, until I found you. \n\nThis is your first birthday together with me Jess, the first one in the JessyKev Kingdom, and I promise it's just the start of a lifetime of celebrations. You are my world, my heart, and my very best friend. \n\nHappy Birthday, gorgeous! 🌸✨";
 
-        let musicStarted = false;
-        const bgMusic = document.getElementById('bg-music');
-
         function startMagic() {
             document.getElementById('overlay').style.opacity = '0';
-            
-            if (!musicStarted) {
-                bgMusic.volume = 0.5;
-                bgMusic.play().catch(e => console.log("Audio play interaction needed"));
-                musicStarted = true;
-            }
+            const bgMusic = document.getElementById('bg-music');
+            bgMusic.volume = 0.5;
+            bgMusic.play();
 
             setTimeout(() => {
                 document.getElementById('overlay').style.display = 'none';
                 document.getElementById('main-title').classList.add('visible');
-                
-                // Show background elements (clouds/birds)
                 document.querySelectorAll('.bg-element').forEach(el => el.classList.add('bg-visible'));
-
-                initInitialParticles(); 
-                setTimeout(typeWriter, 1500);
+                document.body.style.background = "linear-gradient(135deg, #fff0f5 0%, #e6e6fa 100%)";
+                typeWriter();
             }, 1500);
         }
 
@@ -289,78 +220,46 @@
             }
         }
 
-        // --- THE EPIC FINALE TRIGGER ---
         function triggerEpicFinale() {
             document.getElementById('main-container').style.opacity = '0';
-            document.querySelectorAll('.side-tulips, .bg-element').forEach(el => el.style.opacity = '0');
-
             const finalScene = document.getElementById('final-scene');
             finalScene.style.display = 'flex';
-            bgMusic.volume = 1.0; 
-
+            
             initFinaleParticles();
 
             setTimeout(() => {
                  const finalText = document.getElementById('finalText');
                  finalText.classList.add('final-text-visible');
-            }, 1500);
+            }, 1000);
         }
 
-
-        // --- INITIAL SPARKLE SYSTEM (Canvas 1) ---
-        const canvas1 = document.getElementById('canvas');
-        const ctx1 = canvas1.getContext('2d');
-        let particles1 = [];
-
-        function initInitialParticles() {
-            canvas1.width = window.innerWidth; canvas1.height = window.innerHeight;
-            for(let k = 0; k < 150; k++) particles1.push(new SparkleParticle());
-            animateInitial();
-        }
-        class SparkleParticle {
-            constructor() { this.reset(); this.y = Math.random() * canvas1.height; }
-            reset() {
-                this.x = Math.random() * canvas1.width; this.y = canvas1.height + Math.random() * 100;
-                this.size = Math.random() * 3 + 1; this.speedY = Math.random() * 1 + 0.5; this.opacity = Math.random() * 0.5 + 0.2;
-            }
-            update() { this.y -= this.speedY; if (this.y < 0) this.reset(); }
-            draw() {
-                ctx1.fillStyle = `rgba(255, 182, 193, ${this.opacity})`; ctx1.beginPath(); ctx1.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx1.fill();
-            }
-        }
-        function animateInitial() {
-            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
-            particles1.forEach(p => { p.update(); p.draw(); });
-            if(document.getElementById('final-scene').style.display !== 'flex') requestAnimationFrame(animateInitial);
-        }
-
-        // --- EPIC FINALE FLOWER WIND SYSTEM (Canvas 2) ---
+        // --- FINAL EXPLOSION ENGINE ---
         const canvas2 = document.getElementById('final-canvas');
         const ctx2 = canvas2.getContext('2d');
         let petalParticles = [];
-        const petalColors = ['#ff69b4', '#ff1493', '#db7093', '#e6e6fa', '#dda0dd'];
+        const petalColors = ['#ff69b4', '#ff1493', '#db7093', '#ffd700', '#ffffff'];
 
         function initFinaleParticles() {
             canvas2.width = window.innerWidth; canvas2.height = window.innerHeight;
-            for(let j = 0; j < 600; j++) petalParticles.push(new PetalParticle(true));
+            for(let j = 0; j < 400; j++) petalParticles.push(new PetalParticle());
             animateFinale();
         }
 
         class PetalParticle {
-            constructor(explosion = false) { this.reset(explosion); }
-            reset(explosion = false) {
-                this.x = explosion ? window.innerWidth / 2 : window.innerWidth + Math.random() * 200;
-                this.y = explosion ? window.innerHeight / 2 : Math.random() * window.innerHeight;
-                this.speedX = (Math.random() * -10) - 5; 
-                this.speedY = (Math.random() * 4) - 2;
-                this.size = Math.random() * 15 + 5;
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas2.width;
+                this.y = Math.random() * canvas2.height - canvas2.height;
+                this.speedX = (Math.random() * 8) - 4; 
+                this.speedY = (Math.random() * 5) + 2;
+                this.size = Math.random() * 12 + 5;
                 this.color = petalColors[Math.floor(Math.random() * petalColors.length)];
-                this.rotation = Math.random() * 360; this.rotationSpeed = (Math.random() * 4) - 2;
+                this.rotation = Math.random() * 360;
                 this.opacity = Math.random() * 0.5 + 0.5;
             }
             update() {
-                this.x += this.speedX; this.y += this.speedY; this.rotation += this.rotationSpeed;
-                if (this.x < -50) this.reset();
+                this.x += this.speedX; this.y += this.speedY; this.rotation += 2;
+                if (this.y > canvas2.height) this.reset();
             }
             draw() {
                 ctx2.save(); ctx2.translate(this.x, this.y); ctx2.rotate(this.rotation * Math.PI / 180);
@@ -374,11 +273,6 @@
             petalParticles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animateFinale);
         }
-
-        window.addEventListener('resize', () => {
-            canvas1.width = window.innerWidth; canvas1.height = window.innerHeight;
-            canvas2.width = window.innerWidth; canvas2.height = window.innerHeight;
-        });
     </script>
 </body>
 </html>
