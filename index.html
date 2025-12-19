@@ -3,323 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Jessica!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>Happy Birthday Jessy!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-pink: #ff9eb5;
             --deep-rose: #d63384;
-            --tulip-stem: #7fb069;
+            --purple-royal: #9b5de5;
             --text-color: #4a4a4a;
             --gold-shine: #ffd700;
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100%;
-            overflow-x: hidden;
-            font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #fff0f3 0%, #ffe3e3 50%, #fff5e6 100%);
+            margin: 0; padding: 0; width: 100%; min-height: 100%;
+            overflow-x: hidden; font-family: 'Quicksand', sans-serif;
+            /* Initial softer gradient */
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 50%, #fffaf0 100%);
+            transition: background 2s ease;
         }
 
-        /* --- MAGIC ENTRANCE --- */
+        /* --- OVERLAYS & CANVAS --- */
         #overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 9999;
             transition: opacity 1.5s ease-out;
         }
-
         .heart-btn-start {
-            background: none;
-            border: none;
-            font-size: 6rem;
-            cursor: pointer;
-            animation: pulse 1.5s infinite;
-            filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.6));
-            transition: transform 0.3s;
+            background: none; border: none; font-size: 7rem; cursor: pointer;
+            animation: pulse 1.5s infinite; filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.7));
         }
-        
-        .heart-btn-start:hover { transform: scale(1.2); }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
+        #canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1; }
 
-        /* --- BACKGROUND SPARKLES --- */
-        #canvas {
-            position: fixed;
-            top: 0; left: 0;
-            pointer-events: none;
-            z-index: 1;
-            mix-blend-mode: screen;
-        }
-
-        /* --- TULIP ANIMATIONS (SVG STYLES) --- */
-        .tulip-garden {
-            position: fixed;
-            width: 250px;
-            z-index: 5;
-            pointer-events: none;
-            opacity: 0; /* Hidden initially */
-            transition: opacity 2s ease 1s;
-        }
-        
-        .tulip-bottom.left { bottom: -20px; left: -30px; }
-        .tulip-bottom.right { bottom: -20px; right: -30px; transform: scaleX(-1); }
-        
-        /* Extra side tulips for more "aura" */
-        .tulip-side { width: 180px; }
-        .tulip-side.left { top: 30%; left: -40px; transform: rotate(10deg); }
-        .tulip-side.right { top: 45%; right: -40px; transform: scaleX(-1) rotate(10deg); }
-
-
-        .tulip-svg { width: 100%; height: auto; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
-        .grow-in { opacity: 1; }
-        
-        .bloom-petal-left { transform-origin: bottom right; animation: bloomLeft 3s ease-out forwards; }
-        .bloom-petal-right { transform-origin: bottom left; animation: bloomRight 3s ease-out forwards; }
-        .bloom-petal-center { transform-origin: bottom center; animation: bloomCenter 3s ease-out forwards; }
-        
-        @keyframes bloomLeft { from { transform: rotate(0deg) scale(0.8); } to { transform: rotate(-15deg) scale(1); } }
-        @keyframes bloomRight { from { transform: rotate(0deg) scale(0.8); } to { transform: rotate(15deg) scale(1); } }
-        @keyframes bloomCenter { from { transform: translateY(10px) scale(0.8); } to { transform: translateY(0) scale(1); } }
-        .tulip-stem-sway { transform-origin: bottom center; animation: sway 5s ease-in-out infinite alternate; }
-        @keyframes sway { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
-
-
-        /* --- MAIN CONTENT --- */
+        /* --- MAIN CONTAINER & TYPOGRAPHY --- */
         #main-container {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 50px 20px 100px 20px;
-            max-width: 1000px;
-            margin: 0 auto;
+            position: relative; z-index: 10; text-align: center;
+            padding: 50px 20px 100px 20px; max-width: 900px; margin: 0 auto;
             transition: opacity 1s ease;
         }
 
         h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 4.5rem;
-            color: var(--deep-rose);
-            margin-bottom: 10px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 1s ease;
-            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+            font-family: 'Dancing Script', cursive; font-size: 5rem; color: var(--deep-rose);
+            margin-bottom: 10px; opacity: 0; transform: translateY(20px); transition: all 1s ease;
+            text-shadow: 3px 3px 6px rgba(255, 105, 180, 0.3);
         }
+        .subtitle { font-size: 1.4rem; color: #888; margin-bottom: 50px; font-weight: 700; letter-spacing: 1px; }
 
-        .subtitle {
-            font-size: 1.3rem;
-            color: #888;
-            margin-bottom: 50px;
-            font-weight: 500;
-        }
-
-        /* --- PHOTO GALLERY --- */
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 50px;
-            perspective: 1000px;
-        }
-
+        /* --- GALLERY --- */
+        .gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 50px; perspective: 1000px; }
         .polaroid {
-            background: white;
-            padding: 15px 15px 50px 15px;
-            box-shadow: 0 15px 35px rgba(214, 51, 132, 0.15);
-            transform: rotate(var(--r));
-            transition: all 0.4s ease;
-            width: 220px;
-            position: relative;
-            border: 1px solid rgba(255,255,255,0.8);
+            background: white; padding: 15px 15px 50px 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); transform: rotate(var(--r));
+            transition: all 0.4s ease; width: 200px; position: relative;
+        }
+        .polaroid:hover { transform: scale(1.1) rotate(0deg) translateZ(20px); z-index: 20; box-shadow: 0 25px 50px rgba(214, 51, 132, 0.3); }
+        .polaroid img { width: 100%; height: 200px; object-fit: cover; border-bottom: 1px solid #eee; }
+        .polaroid span { font-family: 'Dancing Script'; font-size: 1.5rem; display: block; margin-top: 20px; color: var(--deep-rose); }
+
+        /* --- MESSAGE CARDS (JUSTIFIED TEXT) --- */
+        .card-style {
+            max-width: 750px; margin: 60px auto; background: rgba(255, 255, 255, 0.9);
+            padding: 50px; border-radius: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            backdrop-filter: blur(10px); border: 3px solid rgba(255, 255, 255, 0.8);
+            text-align: justify; /* JUSTIFIED TEXT */
+            position: relative; overflow: hidden;
         }
         
-        .polaroid::before { /* Tape effect */
-            content: ''; position: absolute; top: -15px; left: 35%; width: 30%; height: 30px;
-            background: rgba(255, 255, 255, 0.6); transform: rotate(-5deg);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        /* Decorative corners for cards */
+        .card-style::before, .card-style::after {
+            content: ''; position: absolute; width: 100px; height: 100px;
+            background-size: contain; background-repeat: no-repeat; opacity: 0.2; z-index: -1;
         }
+        /* Using inline SVG for corner flowers */
+        .card-style::before { top: -20px; left: -20px; transform: rotate(-20deg); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ff69b4' d='M50 0C40 30 20 40 0 50C20 60 40 70 50 100C60 70 80 60 100 50C80 40 60 30 50 0Z'/%3E%3C/svg%3E"); }
+        .card-style::after { bottom: -20px; right: -20px; transform: rotate(20deg); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23d63384' d='M50 0C40 30 20 40 0 50C20 60 40 70 50 100C60 70 80 60 100 50C80 40 60 30 50 0Z'/%3E%3C/svg%3E"); }
 
-        .polaroid:hover {
-            transform: scale(1.1) rotate(0deg) translateZ(20px);
-            z-index: 20;
-            box-shadow: 0 25px 50px rgba(214, 51, 132, 0.3);
-        }
 
-        .polaroid img { width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid #eee; }
-        .polaroid span { font-family: 'Dancing Script', cursive; font-size: 1.6rem; display: block; margin-top: 20px; color: var(--deep-rose); }
-
-        /* --- SCROLL HINT --- */
-        .scroll-hint {
-            margin: 60px auto 20px auto;
-            color: var(--deep-rose);
-            font-size: 2rem;
-            animation: bounce 2s infinite;
-            opacity: 0; /* Hidden initially */
-            transition: opacity 1s ease;
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-20px);}
-            60% {transform: translateY(-10px);}
-        }
-
-        /* --- MESSAGE SECTIONS --- */
-        .card-style {
-            max-width: 700px;
-            margin: 40px auto;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 50px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(214, 51, 132, 0.1);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 240, 245, 0.8);
-            position: relative;
-        }
-
-        /* Floating flower decorations for cards */
-        .card-deco { position: absolute; font-size: 2rem; opacity: 0.8; }
-        .t1 { top: -20px; left: -20px; transform: rotate(-20deg); }
-        .t2 { bottom: -20px; right: -20px; transform: rotate(20deg); }
-
-        #typing-text {
-            font-size: 1.3rem; line-height: 1.8; color: var(--text-color); min-height: 120px; white-space: pre-wrap;
-        }
+        #typing-text { font-size: 1.35rem; line-height: 1.9; color: var(--text-color); min-height: 150px; white-space: pre-wrap; }
 
         .blessing-card {
-            background: linear-gradient(to bottom, #fffafc, #fff0f3);
-            border: 3px double var(--primary-pink);
-            opacity: 0; transform: translateY(30px); transition: all 1.5s ease;
+            background: linear-gradient(to bottom, #fffbfc, #fff0f5);
+            border: 3px double var(--deep-rose); opacity: 0; transform: translateY(40px); transition: all 1.5s ease;
         }
-        
-        .blessing-title { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--deep-rose); margin-bottom: 30px; }
-        .blessing-text { font-size: 1.25rem; line-height: 2.1; color: #555; font-weight: 500; }
-        .final-signature { font-family: 'Dancing Script'; font-size: 3rem; color: var(--deep-rose); margin-top: 50px; display: block; }
+        .blessing-title { font-family: 'Dancing Script'; font-size: 3rem; color: var(--deep-rose); margin-bottom: 30px; text-align: center; }
+        .blessing-text { font-size: 1.3rem; line-height: 2.2; color: #444; font-weight: 500; }
+        .final-signature { font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--deep-rose); margin-top: 50px; display: block; text-align: right; }
 
-        /* --- FINAL FINALE SECTION --- */
-        .final-trigger-section {
-            margin-top: 100px;
-            padding-bottom: 50px;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
+        /* --- TULIP SIDE DECORATIONS (STATIC) --- */
+        .side-tulips { position: fixed; height: 400px; width: auto; z-index: 0; opacity: 0.6; pointer-events: none; transition: opacity 1s;}
+        .st-left { left: -50px; top: 20%; transform: rotate(10deg); }
+        .st-right { right: -50px; top: 40%; transform: scaleX(-1) rotate(10deg); }
+        .hide-on-mobile { display: block; }
+
+
+        /* --- FINALE TRIGGER & SCENE --- */
+        .final-trigger-section { margin-top: 120px; padding-bottom: 50px; opacity: 0; transition: opacity 1s ease; text-align: center; }
         .final-heart-btn {
-            font-size: 5rem;
-            background: none; border: none; cursor: pointer;
-            filter: drop-shadow(0 0 10px red);
-            animation: heartbeat 1.2s infinite;
+            font-size: 6rem; background: none; border: none; cursor: pointer;
+            filter: drop-shadow(0 0 15px red); animation: heartbeat 1.2s infinite;
         }
-        @keyframes heartbeat {
-            0% { transform: scale(1); } 15% { transform: scale(1.2); } 30% { transform: scale(1); } 45% { transform: scale(1.15); } 60% { transform: scale(1); }
-        }
+        @keyframes heartbeat { 0% { transform: scale(1); } 15% { transform: scale(1.25); } 30% { transform: scale(1); } 45% { transform: scale(1.15); } 60% { transform: scale(1); } }
 
-        /* --- THE FINAL SCENE OVERLAY --- */
         #final-scene {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff0f3;
-            z-index: 99999; /* Top priority */
-            display: none; /* Hidden initially */
-            flex-direction: column; justify-content: center; align-items: center;
-            overflow: hidden;
+            /* Dramatic Royal Purple Sunset Gradient */
+            background: linear-gradient(to bottom, #4a0e4e, #8e2de2, #d63384, #ff69b4);
+            z-index: 99999; display: none; /* Hidden initially */
+            flex-direction: column; justify-content: center; align-items: center; overflow: hidden;
         }
 
-        /* Layers of tulip fields */
-        .field-layer {
-            position: absolute; bottom: -100%; left: 0; width: 100%; height: 100%;
-            transition: bottom 3s ease-out;
-        }
-        .field-1 { background: linear-gradient(to top, #ff69b4, transparent 60%); z-index: 1; transition-delay: 0.2s; }
-        .field-2 { background: linear-gradient(to top, #ff1493, transparent 50%); z-index: 2; transition-delay: 0.6s; }
-        .field-3 { background: linear-gradient(to top, #d63384, transparent 40%); z-index: 3; transition-delay: 1s; }
-        .fields-active { bottom: -20% !important; } /* Trigger class */
+        /* Canvas for finale explosion */
+        #final-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-        .final-text-container {
-            z-index: 10; text-align: center;
-            opacity: 0; transition: opacity 2s ease 2.5s; /* Fade in late */
-        }
+        .final-text-container { z-index: 100; text-align: center; opacity: 0; transition: all 1s ease 1s; transform: scale(0.8); }
+        .final-text-visible { opacity: 1 !important; transform: scale(1) !important; }
+        
         .final-h1 {
-            font-family: 'Dancing Script'; font-size: 5rem; color: white;
-            text-shadow: 2px 2px 10px #d63384, 0 0 20px #ff69b4;
-            margin-bottom: 20px;
+            font-family: 'Dancing Script'; font-size: 7rem; color: #fff;
+            /* Massive glowing outline */
+            text-shadow: 0 0 20px #ff1493, 0 0 40px #ff1493, 0 0 80px #ff1493;
+            margin-bottom: 30px; line-height: 1.1; animation: floatText 3s ease-in-out infinite alternate;
         }
         .final-h2 {
-            font-family: 'Quicksand'; font-size: 2.5rem; color: #fff0f3;
-            font-weight: 700; text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+            font-family: 'Quicksand'; font-size: 3rem; color: #ffd700; font-weight: 700;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
         }
+        @keyframes floatText { from { transform: translateY(0); } to { transform: translateY(-20px); } }
 
         .visible { opacity: 1 !important; transform: translateY(0) !important; }
-
-        /* Mobile Responsiveness */
+        
         @media (max-width: 768px) {
-            h1 { font-size: 3rem; }
-            .polaroid { width: 100%; max-width: 300px; margin-bottom: 20px; }
-            .tulip-garden { width: 150px; }
-            .tulip-side { display: none; /* Hide side tulips on mobile to avoid clutter */ }
-            .card-style { padding: 25px; margin: 30px 15px; }
-            .final-h1 { font-size: 3.5rem; } .final-h2 { font-size: 1.8rem; }
+            h1 { font-size: 3.5rem; } .final-h1 { font-size: 4rem; } .final-h2 { font-size: 2rem; }
+            .card-style { padding: 30px 20px; margin: 30px 15px; }
+            .hide-on-mobile { display: none; } /* Hide side tulips on small screens to prevent crowding */
+            .polaroid { width: 100%; max-width: 280px; }
         }
-
     </style>
 </head>
 <body>
 
     <div id="overlay">
         <button class="heart-btn-start" onclick="startMagic()">💖</button>
-        <p style="font-size: 1.3rem; margin-top: 30px; color: #888; font-family: 'Dancing Script';">Tap for Jessy's surprise...</p>
+        <p style="font-size: 1.5rem; margin-top: 30px; color: #888; font-family: 'Dancing Script';">Enter the JessyKev Kingdom...</p>
     </div>
 
     <canvas id="canvas"></canvas>
 
-    <div class="tulip-garden tulip-bottom left" id="tulips-bl"><svg class="tulip-svg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"> <g class="tulip-stem-sway"> <path d="M100,300 Q90,200 100,100" stroke="#7fb069" stroke-width="8" fill="none"/> <path d="M100,250 Q60,200 70,150" stroke="#7fb069" stroke-width="6" fill="none"/> <path d="M100,280 Q140,230 130,180" stroke="#7fb069" stroke-width="6" fill="none"/> <g transform="translate(100, 100)"> <path class="bloom-petal-center" d="M0,0 C-20,-40 20,-40 0,0 z" fill="#ff69b4" /> <path class="bloom-petal-left" d="M0,0 C-30,-30 -40,-10 0,0 z" fill="#ff8da1" /> <path class="bloom-petal-right" d="M0,0 C30,-30 40,-10 0,0 z" fill="#ff8da1" /> </g> <g transform="translate(70, 150) scale(0.7)"> <path class="bloom-petal-center" d="M0,0 C-20,-40 20,-40 0,0 z" fill="#d63384" /> <path class="bloom-petal-left" d="M0,0 C-30,-30 -40,-10 0,0 z" fill="#ff69b4" /> </g> </g> </svg></div>
-    <div class="tulip-garden tulip-bottom right" id="tulips-br"><svg class="tulip-svg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"> <g class="tulip-stem-sway"> <path d="M100,300 Q110,200 100,100" stroke="#7fb069" stroke-width="8" fill="none"/> <path d="M100,250 Q140,200 130,150" stroke="#7fb069" stroke-width="6" fill="none"/> <g transform="translate(100, 100)"> <path class="bloom-petal-center" d="M0,0 C-20,-40 20,-40 0,0 z" fill="#ff69b4" /> <path class="bloom-petal-left" d="M0,0 C-30,-30 -40,-10 0,0 z" fill="#ff8da1" /> <path class="bloom-petal-right" d="M0,0 C30,-30 40,-10 0,0 z" fill="#ff8da1" /> </g> </g> </svg></div>
-    
-    <div class="tulip-garden tulip-side left" id="tulips-sl"><svg class="tulip-svg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"><g class="tulip-stem-sway"><path d="M100,300 Q110,200 100,100" stroke="#7fb069" stroke-width="6" fill="none"/><g transform="translate(100, 100) scale(0.8)"><path class="bloom-petal-center" d="M0,0 C-20,-40 20,-40 0,0 z" fill="#ffd700" /><path class="bloom-petal-left" d="M0,0 C-30,-30 -40,-10 0,0 z" fill="#ffec8b" /><path class="bloom-petal-right" d="M0,0 C30,-30 40,-10 0,0 z" fill="#ffec8b" /></g></g></svg></div>
-    <div class="tulip-garden tulip-side right" id="tulips-sr"><svg class="tulip-svg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"><g class="tulip-stem-sway"><path d="M100,300 Q90,200 100,100" stroke="#7fb069" stroke-width="6" fill="none"/><g transform="translate(100, 100) scale(0.8)"><path class="bloom-petal-center" d="M0,0 C-20,-40 20,-40 0,0 z" fill="#ff9eb5" /><path class="bloom-petal-left" d="M0,0 C-30,-30 -40,-10 0,0 z" fill="#ffb6c1" /><path class="bloom-petal-right" d="M0,0 C30,-30 40,-10 0,0 z" fill="#ffb6c1" /></g></g></svg></div>
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 300'%3E%3Cg fill='none' stroke='%237fb069' stroke-width='4'%3E%3Cpath d='M100 300Q90 200 100 100'/%3E%3Cpath d='M100 250Q60 200 70 150'/%3E%3Cpath d='M100 280Q140 230 130 180'/%3E%3C/g%3E%3Cg fill='%23ff69b4'%3E%3Cpath d='M100 100C80 60 120 60 100 100z'/%3E%3Cpath d='M70 150C50 110 90 110 70 150z'/%3E%3Cpath d='M130 180C110 140 150 140 130 180z'/%3E%3C/g%3E%3C/svg%3E" class="side-tulips st-left hide-on-mobile" alt="decoration">
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 300'%3E%3Cg fill='none' stroke='%237fb069' stroke-width='4'%3E%3Cpath d='M100 300Q110 200 100 100'/%3E%3Cpath d='M100 250Q140 200 130 150'/%3E%3C/g%3E%3Cg fill='%23d63384'%3E%3Cpath d='M100 100C80 60 120 60 100 100z'/%3E%3Cpath d='M130 150C110 110 150 110 130 150z'/%3E%3C/g%3E%3C/svg%3E" class="side-tulips st-right hide-on-mobile" alt="decoration">
 
 
     <div id="main-container">
-        <h1 id="main-title">Happy Birthday, Jessica!</h1>
-        <p class="subtitle">Our first of a million milestones together...</p>
+        <h1 id="main-title">Happy Birthday, Jessy!</h1>
+        <p class="subtitle">The Queen of my world 👑</p>
 
         <div class="gallery">
-            <div class="polaroid" style="--r: -4deg;">
-                <img src="https://images.unsplash.com/photo-1523438094677-a0043053e50d?auto=format&fit=crop&w=500&q=60" alt="Us">
-                <span>My beautiful Jess</span>
+             <div class="polaroid" style="--r: -3deg;">
+                <img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?auto=format&fit=crop&w=500&q=60" alt="Us">
+                <span>My favorite view</span>
             </div>
-            <div class="polaroid" style="--r: 3deg;">
-                <img src="https://images.unsplash.com/photo-1544298822-78464504c514?auto=format&fit=crop&w=500&q=60" alt="Us">
-                <span>That smile I love</span>
+            <div class="polaroid" style="--r: 4deg;">
+                <img src="https://images.unsplash.com/photo-1625495556616-37c682873ad7?auto=format&fit=crop&w=500&q=60" alt="Us">
+                <span>Jessy Cutes smile</span>
             </div>
             <div class="polaroid" style="--r: -2deg;">
-                <img src="https://images.unsplash.com/photo-1608234559440-7a1a62929427?auto=format&fit=crop&w=500&q=60" alt="Us">
-                <span>Pure happiness</span>
+                <img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=500&q=60" alt="Us">
+                <span>Birthday Girl</span>
             </div>
         </div>
 
-        <div class="scroll-hint" id="scrollHint">
-            ⬇️ <br> <span style="font-size: 1rem; font-family:'Quicksand'">Keep scrolling, baby...</span>
-        </div>
-
-        <div class="card-style message-card">
-            <span class="card-deco t1">🌷</span><span class="card-deco t2">✨</span>
+        <div class="card-style message-card" style="margin-top: 80px;">
             <div id="typing-text"></div>
         </div>
 
         <div class="card-style blessing-card" id="blessingCard">
-            <span class="card-deco t1">💖</span><span class="card-deco t2">🌸</span>
             <div class="blessing-title">My Wish For You, Jessy Baby</div>
             <div class="blessing-text">
                 My darling Jess, on this incredibly special day, my heart is just overflowing for you. It’s not enough to just say "I love you," though I do, deeper than I ever thought possible. I want to speak every beautiful thing into your existence.
@@ -328,71 +187,55 @@
                 <br><br>
                 May you be blessed with amazing family time, with laughter that echoes in hallways, and the warmth of knowing how deeply cherished you are by everyone around you. You are a light, Jessy Cutes, and you deserve a life that sparkles just as brightly as you do.
                 <br><br>
-                I am so unbelievably honored to be your Kevin, today and always.
+                The world is so incredibly lucky to have you in it, Jess. Keep shining.
             </div>
             <span class="final-signature">All my love, Kevin.</span>
         </div>
 
          <div class="final-trigger-section" id="finalTrigger">
-            <p style="font-family: 'Dancing Script'; font-size: 2rem; color: var(--deep-rose); margin-bottom: 20px;">One last surprise...</p>
-            <button class="final-heart-btn" onclick="triggerFinalScene()">❤️</button>
-            <p style="font-family: 'Quicksand'; font-size: 1rem; color: #888;">(Click me)</p>
+            <p style="font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--deep-rose); margin-bottom: 30px;">Ready for the grand finale?</p>
+            <button class="final-heart-btn" onclick="triggerEpicFinale()">❤️</button>
+            <p style="font-family: 'Quicksand'; font-size: 1.2rem; color: #888; margin-top: 10px;">(Click for explosion)</p>
          </div>
 
     </div>
 
     <div id="final-scene">
-        <div class="field-layer field-1" id="f1"></div>
-        <div class="field-layer field-2" id="f2"></div>
-        <div class="field-layer field-3" id="f3"></div>
-        <div class="final-text-container" id="finalText">
-            <h1 class="final-h1">Happy Birthday Jessy Cutes!</h1>
+        <canvas id="final-canvas"></canvas> <div class="final-text-container" id="finalText">
+            <h1 class="final-h1">Happy Birthday<br>Jessy Cutes!</h1>
             <h2 class="final-h2">God Bless You Darling Baby.</h2>
         </div>
     </div>
 
 
     <audio id="bg-music" loop>
-        <source src="https://www.chosic.com/wp-content/uploads/2021/07/The-Moment-I-Found-You.mp3" type="audio/mpeg">
+        <source src="https://www.chosic.com/wp-content/uploads/2022/03/Dreams-Come-True.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // The first typing message with correct names
-        const message = "My Dearest Jess,\n\nSince the moment you walked into my life, everything changed in the best way possible. I never knew I could feel this happy, this settled, until I found you. \n\nThis is our first birthday together, Kevin and Jess, and I promise it's just the start of a lifetime of celebrations. You are my world, my heart, and my very best friend. \n\nHappy Birthday, gorgeous! 🌸✨";
+        // Updated Message with JessyKev Kingdom
+        const message = "My Dearest Jess,\n\nSince the moment you walked into my life, everything changed in the best way possible. I never knew I could feel this happy, this settled, until I found you. \n\nThis is your first birthday together with me Jess, the first one in the JessyKev Kingdom, and I promise it's just the start of a lifetime of celebrations. You are my world, my heart, and my very best friend. \n\nHappy Birthday, gorgeous! 🌸✨";
+
+        let musicStarted = false;
+        const bgMusic = document.getElementById('bg-music');
 
         function startMagic() {
-            // Fade out overlay
             document.getElementById('overlay').style.opacity = '0';
             
-            // Play Music
-            const music = document.getElementById('bg-music');
-            music.volume = 0.6; 
-            music.play().catch(e => console.log("Audio play interaction needed"));
+            if (!musicStarted) {
+                bgMusic.volume = 0.5;
+                bgMusic.play().catch(e => console.log("Audio play interaction needed"));
+                musicStarted = true;
+            }
 
             setTimeout(() => {
                 document.getElementById('overlay').style.display = 'none';
                 document.getElementById('main-title').classList.add('visible');
-                
-                // Start Tulips growing
-                document.getElementById('tulips-bl').classList.add('grow-in');
-                document.getElementById('tulips-br').classList.add('grow-in');
-                document.getElementById('tulips-sl').classList.add('grow-in');
-                document.getElementById('tulips-sr').classList.add('grow-in');
-
-                // Show scroll hint shortly after photos
-                setTimeout(() => {
-                     document.getElementById('scrollHint').classList.add('visible');
-                }, 2500);
-
-                // Start typing
+                initInitialParticles(); // Start initial sparkles
                 setTimeout(typeWriter, 1500);
             }, 1500);
-
-            // Start Sparkle Particle Effect
-            initParticles();
         }
 
-        // Typewriter Effect
         let i = 0;
         function typeWriter() {
             if (i < message.length) {
@@ -400,89 +243,128 @@
                 i++;
                 setTimeout(typeWriter, 40); 
             } else {
-                // After typing, reveal Blessing Card and Final Trigger
                 setTimeout(() => {
                      document.getElementById('blessingCard').classList.add('visible');
                      document.getElementById('finalTrigger').classList.add('visible');
-                     document.getElementById('scrollHint').style.opacity = '0'; // Hide hint now
+                     // Slight background shift when blessing appears
+                     document.body.style.background = "linear-gradient(135deg, #fff0f5 0%, #e6e6fa 100%)";
                 }, 1000);
             }
         }
 
-        // --- THE GRAND FINALE TRIGGER ---
-        function triggerFinalScene() {
-            // 1. Fade out the main container
+        // --- THE EPIC FINALE TRIGGER ---
+        function triggerEpicFinale() {
+            // Hide main content
             document.getElementById('main-container').style.opacity = '0';
-            // Hide side tulips
-            document.getElementById('tulips-sl').style.opacity = '0';
-            document.getElementById('tulips-sr').style.opacity = '0';
+            const sideTulips = document.querySelectorAll('.side-tulips');
+            sideTulips.forEach(el => el.style.opacity = '0');
 
-            // 2. Show the final scene container
+            // Prepare Final Scene
             const finalScene = document.getElementById('final-scene');
             finalScene.style.display = 'flex';
+            bgMusic.volume = 1.0; // Pump up volume
 
-            // 3. Trigger the field animations rising
-            setTimeout(() => {
-                document.getElementById('f1').classList.add('fields-active');
-                document.getElementById('f2').classList.add('fields-active');
-                document.getElementById('f3').classList.add('fields-active');
-            }, 100);
+            // Start massive flower wind explosion
+            initFinaleParticles();
 
-            // 4. Show final text
+            // Show massive text after explosion starts
             setTimeout(() => {
-                 document.getElementById('finalText').classList.add('visible');
-                 // Increase music volume for finale
-                 document.getElementById('bg-music').volume = 1.0;
-            }, 2000);
+                 const finalText = document.getElementById('finalText');
+                 finalText.classList.add('final-text-visible');
+            }, 1500);
         }
 
 
-        // --- SPARKLE PARTICLE SYSTEM ---
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
+        // --- INITIAL SPARKLE SYSTEM (Canvas 1) ---
+        const canvas1 = document.getElementById('canvas');
+        const ctx1 = canvas1.getContext('2d');
+        let particles1 = [];
 
-        function initParticles() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            particles = [];
-            for(let i = 0; i < 100; i++) { 
-                particles.push(new Particle());
-            }
-            animate();
+        function initInitialParticles() {
+            canvas1.width = window.innerWidth; canvas1.height = window.innerHeight;
+            for(let k = 0; k < 150; k++) particles1.push(new SparkleParticle());
+            animateInitial();
         }
-
-        class Particle {
-            constructor() { this.reset(); this.y = Math.random() * canvas.height; }
+        class SparkleParticle {
+            constructor() { this.reset(); this.y = Math.random() * canvas1.height; }
             reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = canvas.height + Math.random() * 100;
-                this.size = Math.random() * 5 + 1;
-                this.speedY = Math.random() * 1 + 0.2;
-                this.opacity = Math.random() * 0.8 + 0.1;
-                this.sparkleType = Math.random() > 0.5 ? 'circle' : 'cross';
+                this.x = Math.random() * canvas1.width; this.y = canvas1.height + Math.random() * 100;
+                this.size = Math.random() * 3 + 1; this.speedY = Math.random() * 1 + 0.5; this.opacity = Math.random() * 0.5 + 0.2;
             }
-            update() { this.y -= this.speedY; if (this.y < -10) this.reset(); }
+            update() { this.y -= this.speedY; if (this.y < 0) this.reset(); }
             draw() {
-                ctx.fillStyle = `rgba(255, 215, 0, ${this.opacity})`; // Gold sparkles
-                ctx.shadowBlur = 10; ctx.shadowColor = "white";
-                if (this.sparkleType === 'circle') {
-                    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-                } else {
-                    // Draw tiny crosses for extra sparkle
-                    ctx.fillRect(this.x, this.y - this.size, this.size/2, this.size*2);
-                    ctx.fillRect(this.x - this.size + (this.size/4), this.y - (this.size/4), this.size*2, this.size/2);
-                }
-                ctx.shadowBlur = 0;
+                ctx1.fillStyle = `rgba(255, 182, 193, ${this.opacity})`; ctx1.beginPath(); ctx1.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx1.fill();
+            }
+        }
+        function animateInitial() {
+            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+            particles1.forEach(p => { p.update(); p.draw(); });
+            if(document.getElementById('final-scene').style.display !== 'flex') requestAnimationFrame(animateInitial);
+        }
+
+        // --- EPIC FINALE FLOWER WIND SYSTEM (Canvas 2) ---
+        const canvas2 = document.getElementById('final-canvas');
+        const ctx2 = canvas2.getContext('2d');
+        let petalParticles = [];
+        const petalColors = ['#ff69b4', '#ff1493', '#db7093', '#e6e6fa', '#dda0dd'];
+
+        function initFinaleParticles() {
+            canvas2.width = window.innerWidth; canvas2.height = window.innerHeight;
+            // Explosion: create hundreds of petals instantly
+            for(let j = 0; j < 600; j++) petalParticles.push(new PetalParticle(true));
+            animateFinale();
+        }
+
+        class PetalParticle {
+            constructor(explosion = false) {
+                this.reset(explosion);
+            }
+            reset(explosion = false) {
+                // Start off-screen right, OR explode from center if needed
+                this.x = explosion ? window.innerWidth / 2 : window.innerWidth + Math.random() * 200;
+                this.y = explosion ? window.innerHeight / 2 : Math.random() * window.innerHeight;
+                
+                // High wind speed right to left
+                this.speedX = (Math.random() * -10) - 5; 
+                this.speedY = (Math.random() * 4) - 2;
+                
+                this.size = Math.random() * 15 + 5;
+                this.color = petalColors[Math.floor(Math.random() * petalColors.length)];
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() * 4) - 2;
+                this.opacity = Math.random() * 0.5 + 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+                // If goes off screen left, recycle to right
+                if (this.x < -50) this.reset();
+            }
+            draw() {
+                ctx2.save();
+                ctx2.translate(this.x, this.y);
+                ctx2.rotate(this.rotation * Math.PI / 180);
+                ctx2.fillStyle = this.color;
+                ctx2.globalAlpha = this.opacity;
+                // Draw a simple petal shape (oval stretched)
+                ctx2.beginPath();
+                ctx2.ellipse(0, 0, this.size/2, this.size, 0, 0, 2 * Math.PI);
+                ctx2.fill();
+                ctx2.restore();
             }
         }
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
+        function animateFinale() {
+            ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+            petalParticles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateFinale);
         }
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+        window.addEventListener('resize', () => {
+            canvas1.width = window.innerWidth; canvas1.height = window.innerHeight;
+            canvas2.width = window.innerWidth; canvas2.height = window.innerHeight;
+        });
     </script>
 </body>
 </html>
