@@ -10,8 +10,6 @@
             --primary-pink: #ff9eb5;
             --deep-rose: #d63384;
             --gold: #ffd700;
-            --royal-purple: #4a0e4e;
-            --leaf-green: #7bb661;
         }
 
         body, html {
@@ -20,29 +18,29 @@
             background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 50%, #e0f2fe 100%);
         }
 
-        /* --- ENHANCED SKY --- */
+        /* --- SKY ELEMENTS --- */
         .sky-element { position: fixed; pointer-events: none; z-index: 1; opacity: 0; transition: opacity 2s; }
         .sky-visible { opacity: 1 !important; }
 
         .cloud {
-            background: white; border-radius: 100px; width: 200px; height: 70px;
-            filter: blur(10px); animation: cloudMove linear infinite;
-            box-shadow: 10px 10px 20px rgba(255,255,255,0.8);
+            background: white; border-radius: 100px; width: 220px; height: 80px;
+            filter: blur(12px); animation: cloudMove linear infinite;
+            box-shadow: 10px 10px 30px rgba(255,255,255,0.9);
         }
-        .c1 { top: 10%; animation-duration: 25s; width: 250px; }
-        .c2 { top: 25%; animation-duration: 18s; animation-delay: -2s; width: 180px; }
-        .c3 { top: 40%; animation-duration: 30s; animation-delay: -10s; width: 220px; }
+        .c1 { top: 8%; animation-duration: 22s; width: 280px; }
+        .c2 { top: 22%; animation-duration: 16s; animation-delay: -3s; }
+        .c3 { top: 38%; animation-duration: 28s; animation-delay: -12s; width: 240px; }
 
-        @keyframes cloudMove { from { left: -300px; } to { left: 110%; } }
+        @keyframes cloudMove { from { left: -350px; } to { left: 110%; } }
 
         .bird { position: fixed; z-index: 3; animation: fly linear infinite; }
-        .bird-svg { width: 45px; fill: #444; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1)); }
-        .b1 { top: 15%; animation-duration: 12s; }
-        .b2 { top: 30%; animation-duration: 15s; animation-delay: -5s; }
+        .bird-svg { width: 50px; fill: #333; filter: drop-shadow(3px 3px 3px rgba(0,0,0,0.15)); }
+        .b1 { top: 12%; animation-duration: 10s; }
+        .b2 { top: 28%; animation-duration: 14s; animation-delay: -4s; }
         
         @keyframes fly {
             0% { transform: translateX(-100px) translateY(0) scale(1); }
-            50% { transform: translateX(50vw) translateY(-50px) scale(1.1); }
+            50% { transform: translateX(50vw) translateY(-60px) scale(1.2); }
             100% { transform: translateX(110vw) translateY(0) scale(1); }
         }
 
@@ -59,7 +57,7 @@
         }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
 
-        /* --- MAIN PAGE --- */
+        /* --- CONTENT AREA --- */
         #main-container {
             position: relative; z-index: 10; text-align: center;
             padding: 50px 20px; max-width: 850px; margin: 0 auto;
@@ -68,42 +66,50 @@
         .title-group { opacity: 0; transform: translateY(20px); transition: 1s ease; margin-bottom: 40px; }
         .visible { opacity: 1 !important; transform: translateY(0) !important; }
 
-        h1 { font-family: 'Dancing Script'; font-size: 4.5rem; color: var(--deep-rose); margin: 0; }
-        .subtitle { font-size: 1.8rem; color: #ff69b4; font-family: 'Dancing Script'; margin-top: 5px; }
-
-        /* --- VINES & FLOWERS DECOR --- */
-        .card-style {
-            background: rgba(255, 255, 255, 0.92); padding: 45px; border-radius: 40px;
-            box-shadow: 0 15px 45px rgba(0,0,0,0.08); text-align: justify; margin: 60px auto;
-            position: relative; border: 2px solid #fff; line-height: 1.8; font-size: 1.3rem;
-        }
-
-        /* Flower Ornaments */
-        .card-style::before {
-            content: '🌸'; position: absolute; top: -25px; left: -10px; font-size: 3rem;
-        }
-        .card-style::after {
-            content: '🌺'; position: absolute; bottom: -25px; right: -10px; font-size: 3rem;
-        }
-
-        .vine-accent {
-            position: absolute; width: 100px; height: 100px; pointer-events: none;
-        }
-        .v-top-right { top: -20px; right: -20px; border-top: 8px solid var(--leaf-green); border-right: 8px solid var(--leaf-green); border-radius: 0 40px 0 0; }
-        .v-bottom-left { bottom: -20px; left: -20px; border-bottom: 8px solid var(--leaf-green); border-left: 8px solid var(--leaf-green); border-radius: 0 0 0 40px; }
-
-        /* --- SCROLL INDICATOR --- */
-        .scroll-down {
-            margin: 20px 0; color: #d63384; font-family: 'Dancing Script'; font-size: 1.8rem;
-            animation: bounce 2s infinite; opacity: 0; transition: 1s;
-        }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
+        h1 { font-family: 'Dancing Script'; font-size: 4.8rem; color: var(--deep-rose); margin: 0; text-shadow: 2px 2px 0px white; }
+        .subtitle { font-size: 2rem; color: #ff69b4; font-family: 'Dancing Script'; margin-top: 5px; }
 
         .gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 40px 0; }
-        .polaroid { background: white; padding: 15px 15px 40px 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 180px; transform: rotate(var(--r)); }
-        .polaroid img { width: 100%; height: 180px; object-fit: cover; }
+        .polaroid { background: white; padding: 15px 15px 40px 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 190px; transform: rotate(var(--r)); }
+        .polaroid img { width: 100%; height: 190px; object-fit: cover; }
 
-        .blessing-card { opacity: 0; transform: translateY(40px); transition: 1.5s ease; border: 4px double var(--deep-rose); }
+        .scroll-down {
+            margin: 30px 0; color: #d63384; font-family: 'Dancing Script'; font-size: 2rem;
+            animation: bounce 2s infinite; opacity: 0; transition: 1s;
+        }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-12px);} 60% {transform: translateY(-6px);} }
+
+        /* --- REAL VINE BOXES --- */
+        .card-style {
+            background: rgba(255, 255, 255, 0.94); padding: 50px; border-radius: 45px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1); text-align: justify; margin: 80px auto;
+            position: relative; border: 1px solid rgba(255,255,255,0.5); line-height: 1.8; font-size: 1.35rem;
+        }
+
+        /* Vine PNGs */
+        .vine {
+            position: absolute;
+            width: 180px; /* Adjust size of vines */
+            height: auto;
+            pointer-events: none;
+            z-index: 11;
+        }
+        .v-top-right {
+            top: -40px; right: -50px;
+            content: url('https://pngimg.com/uploads/vine/vine_PNG33.png'); /* Real Vine Asset */
+            transform: rotate(90deg);
+        }
+        .v-bottom-left {
+            bottom: -40px; left: -50px;
+            content: url('https://pngimg.com/uploads/vine/vine_PNG33.png'); /* Real Vine Asset */
+            transform: rotate(-90deg);
+        }
+
+        .flower-corner { position: absolute; font-size: 3.5rem; z-index: 12; filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.2)); }
+        .f1 { top: -30px; left: -20px; }
+        .f2 { bottom: -30px; right: -20px; }
+
+        .blessing-card { opacity: 0; transform: translateY(40px); transition: 1.5s ease; border: 5px double var(--deep-rose); }
 
         /* --- FINALE --- */
         #final-scene {
@@ -114,9 +120,9 @@
         #flower-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
 
         @media (max-width: 768px) {
-            h1 { font-size: 3rem; }
-            .card-style { padding: 25px; font-size: 1.1rem; }
-            .polaroid { width: 140px; }
+            h1 { font-size: 3.2rem; }
+            .card-style { padding: 30px; font-size: 1.15rem; width: 90%; }
+            .vine { width: 120px; }
         }
     </style>
 </head>
@@ -148,17 +154,19 @@
         <div class="scroll-down" id="scroll-note">Keep scrolling, baby... ✨👇</div>
 
         <div class="card-style">
-            <div class="vine-accent v-top-right"></div>
-            <div class="vine-accent v-bottom-left"></div>
+            <img class="vine v-top-right">
+            <img class="vine v-bottom-left">
+            <span class="flower-corner f1">🌸</span>
+            <span class="flower-corner f2">🌺</span>
             <div id="typing-text"></div>
-            <div style="position:absolute; right:10px; top:10px;">🌻</div>
-            <div style="position:absolute; left:10px; bottom:10px;">🌷</div>
         </div>
 
         <div class="card-style blessing-card" id="blessingCard">
-            <div class="vine-accent v-top-right"></div>
-            <div class="vine-accent v-bottom-left"></div>
-            <h2 style="text-align: center; font-family: 'Dancing Script'; font-size: 2.8rem; color: var(--deep-rose);">My Wish For You, Jessy Baby</h2>
+            <img class="vine v-top-right">
+            <img class="vine v-bottom-left">
+            <span class="flower-corner f1">🌷</span>
+            <span class="flower-corner f2">🌻</span>
+            <h2 style="text-align: center; font-family: 'Dancing Script'; font-size: 3rem; color: var(--deep-rose); margin-top: 0;">My Wish For You, Jessy Baby</h2>
             My darling Jess, on this incredibly special day, my heart is just overflowing for you. It’s not enough to just say "I love you," though I do, deeper than I ever thought possible. I want to speak every beautiful thing into your existence.
             <br><br>
             I pray that this new year of your life is drenched in sunshine and filled with the kind of wonder that makes you stop and stare. I pray for an abundance of beauty in your daily life, for peace in your heart, and for dreams that don't just stay dreams, but become your reality.
@@ -167,8 +175,7 @@
             <br><br>
             Your parents, your family, this world and me are incredibly lucky to have you in it, Jess. Keep shining.
             <br><br>
-            <span style="font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--deep-rose); display: block; text-align: right;">All my love, Kevin.</span>
-            <div style="position:absolute; right:10px; bottom:10px;">💐</div>
+            <span style="font-family: 'Dancing Script'; font-size: 2.8rem; color: var(--deep-rose); display: block; text-align: right;">All my love, Kevin.</span>
         </div>
 
         <div class="final-trigger" id="finalTrigger">
@@ -235,7 +242,7 @@
         function initFlowerStorm() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            for(let i = 0; i < 350; i++) petals.push(new Petal());
+            for(let i = 0; i < 400; i++) petals.push(new Petal());
             animatePetals();
         }
 
@@ -246,7 +253,7 @@
                 this.y = Math.random() * canvas.height - canvas.height;
                 this.size = Math.random() * 15 + 5;
                 this.speedY = Math.random() * 2 + 1;
-                this.speedX = (Math.random() * 3) - 1.5 + 2; 
+                this.speedX = (Math.random() * 3) - 1.5 + 2.5; 
                 this.color = colors[Math.floor(Math.random() * colors.length)];
                 this.rotation = Math.random() * 360;
             }
