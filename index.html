@@ -17,8 +17,7 @@
         body, html {
             margin: 0; padding: 0; width: 100%; min-height: 100%;
             overflow-x: hidden; font-family: 'Quicksand', sans-serif;
-            /* Initial softer gradient */
-            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 50%, #fffaf0 100%);
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 50%, #f0f8ff 100%); /* Slightly bluer sky tone */
             transition: background 2s ease;
         }
 
@@ -36,6 +35,33 @@
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
 
         #canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1; }
+
+        /* --- BACKGROUND ANIMATIONS (CLOUDS & BIRDS) --- */
+        .bg-element { position: fixed; pointer-events: none; z-index: 2; opacity: 0; transition: opacity 2s ease 1s; }
+        .bg-visible { opacity: 1; }
+
+        /* Clouds made with box-shadows for softness */
+        .cloud {
+             background: transparent; border-radius: 50%;
+             box-shadow: #fff 65px -15px 0 -5px, #fff 25px -25px, #fff 30px 10px, #fff 60px 15px 0 -10px, #fff 85px 5px 0 -5px;
+             height: 50px; width: 50px; animation: cloudMove linear infinite;
+        }
+        .c1 { top: 10%; left: -100px; transform: scale(1.5); animation-duration: 45s; opacity: 0.7; }
+        .c2 { top: 30%; left: -100px; transform: scale(1); animation-duration: 35s; animation-delay: -15s; opacity: 0.6; }
+        .c3 { top: 5%; left: -100px; transform: scale(0.8); animation-duration: 55s; animation-delay: -5s; opacity: 0.8; }
+        @keyframes cloudMove { from { left: -150px; } to { left: 110%; } }
+
+        /* Birds SVG */
+        .bird-container { position: fixed; z-index: 3; animation: fly linear infinite; opacity: 0; transition: opacity 2s ease 2s;}
+        .bird-svg { width: 40px; height: auto; fill: #4a4a4a; }
+        .b1 { top: 15%; animation-duration: 20s; animation-delay: -5s; }
+        .b2 { top: 25%; animation-duration: 25s; animation-delay: -12s; transform: scale(0.8); }
+        @keyframes fly {
+            0% { transform: translateX(-100px) translateY(0) rotate(5deg); }
+            50% { transform: translateX(50vw) translateY(-30px) rotate(-5deg); }
+            100% { transform: translateX(calc(100vw + 100px)) translateY(0) rotate(5deg); }
+        }
+
 
         /* --- MAIN CONTAINER & TYPOGRAPHY --- */
         #main-container {
@@ -62,24 +88,20 @@
         .polaroid img { width: 100%; height: 200px; object-fit: cover; border-bottom: 1px solid #eee; }
         .polaroid span { font-family: 'Dancing Script'; font-size: 1.5rem; display: block; margin-top: 20px; color: var(--deep-rose); }
 
-        /* --- MESSAGE CARDS (JUSTIFIED TEXT) --- */
+        /* --- MESSAGE CARDS --- */
         .card-style {
-            max-width: 750px; margin: 60px auto; background: rgba(255, 255, 255, 0.9);
+            max-width: 750px; margin: 60px auto; background: rgba(255, 255, 255, 0.92);
             padding: 50px; border-radius: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             backdrop-filter: blur(10px); border: 3px solid rgba(255, 255, 255, 0.8);
-            text-align: justify; /* JUSTIFIED TEXT */
-            position: relative; overflow: hidden;
+            text-align: justify; position: relative; overflow: hidden;
         }
         
-        /* Decorative corners for cards */
         .card-style::before, .card-style::after {
             content: ''; position: absolute; width: 100px; height: 100px;
-            background-size: contain; background-repeat: no-repeat; opacity: 0.2; z-index: -1;
+            background-size: contain; background-repeat: no-repeat; opacity: 0.15; z-index: -1;
         }
-        /* Using inline SVG for corner flowers */
         .card-style::before { top: -20px; left: -20px; transform: rotate(-20deg); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ff69b4' d='M50 0C40 30 20 40 0 50C20 60 40 70 50 100C60 70 80 60 100 50C80 40 60 30 50 0Z'/%3E%3C/svg%3E"); }
         .card-style::after { bottom: -20px; right: -20px; transform: rotate(20deg); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23d63384' d='M50 0C40 30 20 40 0 50C20 60 40 70 50 100C60 70 80 60 100 50C80 40 60 30 50 0Z'/%3E%3C/svg%3E"); }
-
 
         #typing-text { font-size: 1.35rem; line-height: 1.9; color: var(--text-color); min-height: 150px; white-space: pre-wrap; }
 
@@ -91,12 +113,11 @@
         .blessing-text { font-size: 1.3rem; line-height: 2.2; color: #444; font-weight: 500; }
         .final-signature { font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--deep-rose); margin-top: 50px; display: block; text-align: right; }
 
-        /* --- TULIP SIDE DECORATIONS (STATIC) --- */
-        .side-tulips { position: fixed; height: 400px; width: auto; z-index: 0; opacity: 0.6; pointer-events: none; transition: opacity 1s;}
+        /* --- STATIC DECORATIONS --- */
+        .side-tulips { position: fixed; height: 400px; width: auto; z-index: 1; opacity: 0.5; pointer-events: none; transition: opacity 1s;}
         .st-left { left: -50px; top: 20%; transform: rotate(10deg); }
         .st-right { right: -50px; top: 40%; transform: scaleX(-1) rotate(10deg); }
         .hide-on-mobile { display: block; }
-
 
         /* --- FINALE TRIGGER & SCENE --- */
         .final-trigger-section { margin-top: 120px; padding-bottom: 50px; opacity: 0; transition: opacity 1s ease; text-align: center; }
@@ -110,20 +131,23 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             /* Dramatic Royal Purple Sunset Gradient */
             background: linear-gradient(to bottom, #4a0e4e, #8e2de2, #d63384, #ff69b4);
-            z-index: 99999; display: none; /* Hidden initially */
+            z-index: 99999; display: none; 
             flex-direction: column; justify-content: center; align-items: center; overflow: hidden;
         }
 
-        /* Canvas for finale explosion */
         #final-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
         .final-text-container { z-index: 100; text-align: center; opacity: 0; transition: all 1s ease 1s; transform: scale(0.8); }
         .final-text-visible { opacity: 1 !important; transform: scale(1) !important; }
         
         .final-h1 {
-            font-family: 'Dancing Script'; font-size: 7rem; color: #fff;
-            /* Massive glowing outline */
-            text-shadow: 0 0 20px #ff1493, 0 0 40px #ff1493, 0 0 80px #ff1493;
+            font-family: 'Dancing Script'; font-size: 7rem; color: white;
+            /* --- MASSIVE BORDERED TEXT EFFECT --- */
+            -webkit-text-stroke: 3px var(--gold-shine); /* Gold border */
+            text-shadow: 
+                0 0 20px #ff1493, 
+                0 0 40px #ff1493, 
+                4px 4px 0px #d63384; /* Hard shadow for depth */
             margin-bottom: 30px; line-height: 1.1; animation: floatText 3s ease-in-out infinite alternate;
         }
         .final-h2 {
@@ -135,9 +159,9 @@
         .visible { opacity: 1 !important; transform: translateY(0) !important; }
         
         @media (max-width: 768px) {
-            h1 { font-size: 3.5rem; } .final-h1 { font-size: 4rem; } .final-h2 { font-size: 2rem; }
+            h1 { font-size: 3.5rem; } .final-h1 { font-size: 4rem; -webkit-text-stroke: 2px var(--gold-shine); } .final-h2 { font-size: 2rem; }
             .card-style { padding: 30px 20px; margin: 30px 15px; }
-            .hide-on-mobile { display: none; } /* Hide side tulips on small screens to prevent crowding */
+            .hide-on-mobile { display: none; } 
             .polaroid { width: 100%; max-width: 280px; }
         }
     </style>
@@ -146,10 +170,22 @@
 
     <div id="overlay">
         <button class="heart-btn-start" onclick="startMagic()">💖</button>
-        <p style="font-size: 1.5rem; margin-top: 30px; color: #888; font-family: 'Dancing Script';">Enter the JessyKev Kingdom...</p>
+        <p style="font-size: 1.8rem; margin-top: 30px; color: #888; font-family: 'Dancing Script';">Click the Heart, Jessy.</p>
     </div>
 
     <canvas id="canvas"></canvas>
+
+    <div class="bg-element cloud c1"></div>
+    <div class="bg-element cloud c2"></div>
+    <div class="bg-element cloud c3"></div>
+
+    <div class="bird-container b1 bg-element">
+        <svg class="bird-svg" viewBox="0 0 512 512"><path d="M496.1 217c-41.8-28.6-100.5-47.8-152.7-23.4 31.2-29.2 88.4-34.6 140.7 8.9 3.9 3.2 1.3 9.5-3.9 8.7-57.2-8.6-115.7-3.8-156.3 23.6-3.3 2.2-1.6 7.4 2.3 7 64.9-6.3 119.9 5.5 161.2 38.3 1.3 1 2.7 2.3 4.2 3.8 6 6 2.7 16.7-6 17.2-82.7 4.4-159.6-21.2-226.8-70.4 18 18.3 46.2 38 75.9 51.6 3.6 1.7 3.9 6.8-.3 9.3-47 27.7-111.7 50.7-190.5 32.2-3.6-.8-4.7-5.7-1.5-7.4 53.3-29.1 81.9-60.3 96-89.2C36.2 238.9 4.7 251.4 1.3 252.6c-4.1 1.5-6-4.5-2.2-6.9 83-53.7 211-158.3 223.8-168.8 3.6-2.9 9.1-1 9.7 3.6 4.1 29.4-4.9 60.8-21 88.1 60.1-40.2 108.8-80.9 158.7-112.8 4.1-2.6 9.2 1.1 8 5.7-8.1 31-18 58.8-33 92.5 70-41 117.3-8.2 144 22.6 6.7 7.7 11.8 20.3 13.7 30.5 1.6 8.8-7.2 16-15 10.7z"/></svg>
+    </div>
+    <div class="bird-container b2 bg-element">
+        <svg class="bird-svg" viewBox="0 0 512 512"><path d="M496.1 217c-41.8-28.6-100.5-47.8-152.7-23.4 31.2-29.2 88.4-34.6 140.7 8.9 3.9 3.2 1.3 9.5-3.9 8.7-57.2-8.6-115.7-3.8-156.3 23.6-3.3 2.2-1.6 7.4 2.3 7 64.9-6.3 119.9 5.5 161.2 38.3 1.3 1 2.7 2.3 4.2 3.8 6 6 2.7 16.7-6 17.2-82.7 4.4-159.6-21.2-226.8-70.4 18 18.3 46.2 38 75.9 51.6 3.6 1.7 3.9 6.8-.3 9.3-47 27.7-111.7 50.7-190.5 32.2-3.6-.8-4.7-5.7-1.5-7.4 53.3-29.1 81.9-60.3 96-89.2C36.2 238.9 4.7 251.4 1.3 252.6c-4.1 1.5-6-4.5-2.2-6.9 83-53.7 211-158.3 223.8-168.8 3.6-2.9 9.1-1 9.7 3.6 4.1 29.4-4.9 60.8-21 88.1 60.1-40.2 108.8-80.9 158.7-112.8 4.1-2.6 9.2 1.1 8 5.7-8.1 31-18 58.8-33 92.5 70-41 117.3-8.2 144 22.6 6.7 7.7 11.8 20.3 13.7 30.5 1.6 8.8-7.2 16-15 10.7z"/></svg>
+    </div>
+
 
     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 300'%3E%3Cg fill='none' stroke='%237fb069' stroke-width='4'%3E%3Cpath d='M100 300Q90 200 100 100'/%3E%3Cpath d='M100 250Q60 200 70 150'/%3E%3Cpath d='M100 280Q140 230 130 180'/%3E%3C/g%3E%3Cg fill='%23ff69b4'%3E%3Cpath d='M100 100C80 60 120 60 100 100z'/%3E%3Cpath d='M70 150C50 110 90 110 70 150z'/%3E%3Cpath d='M130 180C110 140 150 140 130 180z'/%3E%3C/g%3E%3C/svg%3E" class="side-tulips st-left hide-on-mobile" alt="decoration">
     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 300'%3E%3Cg fill='none' stroke='%237fb069' stroke-width='4'%3E%3Cpath d='M100 300Q110 200 100 100'/%3E%3Cpath d='M100 250Q140 200 130 150'/%3E%3C/g%3E%3Cg fill='%23d63384'%3E%3Cpath d='M100 100C80 60 120 60 100 100z'/%3E%3Cpath d='M130 150C110 110 150 110 130 150z'/%3E%3C/g%3E%3C/svg%3E" class="side-tulips st-right hide-on-mobile" alt="decoration">
@@ -187,7 +223,7 @@
                 <br><br>
                 May you be blessed with amazing family time, with laughter that echoes in hallways, and the warmth of knowing how deeply cherished you are by everyone around you. You are a light, Jessy Cutes, and you deserve a life that sparkles just as brightly as you do.
                 <br><br>
-                The world is so incredibly lucky to have you in it, Jess. Keep shining.
+                Your parents, your family, this world and me are incredibly lucky to have you in it, Jess. Keep shining.
             </div>
             <span class="final-signature">All my love, Kevin.</span>
         </div>
@@ -213,7 +249,6 @@
     </audio>
 
     <script>
-        // Updated Message with JessyKev Kingdom
         const message = "My Dearest Jess,\n\nSince the moment you walked into my life, everything changed in the best way possible. I never knew I could feel this happy, this settled, until I found you. \n\nThis is your first birthday together with me Jess, the first one in the JessyKev Kingdom, and I promise it's just the start of a lifetime of celebrations. You are my world, my heart, and my very best friend. \n\nHappy Birthday, gorgeous! 🌸✨";
 
         let musicStarted = false;
@@ -231,7 +266,11 @@
             setTimeout(() => {
                 document.getElementById('overlay').style.display = 'none';
                 document.getElementById('main-title').classList.add('visible');
-                initInitialParticles(); // Start initial sparkles
+                
+                // Show background elements (clouds/birds)
+                document.querySelectorAll('.bg-element').forEach(el => el.classList.add('bg-visible'));
+
+                initInitialParticles(); 
                 setTimeout(typeWriter, 1500);
             }, 1500);
         }
@@ -246,28 +285,21 @@
                 setTimeout(() => {
                      document.getElementById('blessingCard').classList.add('visible');
                      document.getElementById('finalTrigger').classList.add('visible');
-                     // Slight background shift when blessing appears
-                     document.body.style.background = "linear-gradient(135deg, #fff0f5 0%, #e6e6fa 100%)";
                 }, 1000);
             }
         }
 
         // --- THE EPIC FINALE TRIGGER ---
         function triggerEpicFinale() {
-            // Hide main content
             document.getElementById('main-container').style.opacity = '0';
-            const sideTulips = document.querySelectorAll('.side-tulips');
-            sideTulips.forEach(el => el.style.opacity = '0');
+            document.querySelectorAll('.side-tulips, .bg-element').forEach(el => el.style.opacity = '0');
 
-            // Prepare Final Scene
             const finalScene = document.getElementById('final-scene');
             finalScene.style.display = 'flex';
-            bgMusic.volume = 1.0; // Pump up volume
+            bgMusic.volume = 1.0; 
 
-            // Start massive flower wind explosion
             initFinaleParticles();
 
-            // Show massive text after explosion starts
             setTimeout(() => {
                  const finalText = document.getElementById('finalText');
                  finalText.classList.add('final-text-visible');
@@ -310,48 +342,30 @@
 
         function initFinaleParticles() {
             canvas2.width = window.innerWidth; canvas2.height = window.innerHeight;
-            // Explosion: create hundreds of petals instantly
             for(let j = 0; j < 600; j++) petalParticles.push(new PetalParticle(true));
             animateFinale();
         }
 
         class PetalParticle {
-            constructor(explosion = false) {
-                this.reset(explosion);
-            }
+            constructor(explosion = false) { this.reset(explosion); }
             reset(explosion = false) {
-                // Start off-screen right, OR explode from center if needed
                 this.x = explosion ? window.innerWidth / 2 : window.innerWidth + Math.random() * 200;
                 this.y = explosion ? window.innerHeight / 2 : Math.random() * window.innerHeight;
-                
-                // High wind speed right to left
                 this.speedX = (Math.random() * -10) - 5; 
                 this.speedY = (Math.random() * 4) - 2;
-                
                 this.size = Math.random() * 15 + 5;
                 this.color = petalColors[Math.floor(Math.random() * petalColors.length)];
-                this.rotation = Math.random() * 360;
-                this.rotationSpeed = (Math.random() * 4) - 2;
+                this.rotation = Math.random() * 360; this.rotationSpeed = (Math.random() * 4) - 2;
                 this.opacity = Math.random() * 0.5 + 0.5;
             }
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.rotation += this.rotationSpeed;
-                // If goes off screen left, recycle to right
+                this.x += this.speedX; this.y += this.speedY; this.rotation += this.rotationSpeed;
                 if (this.x < -50) this.reset();
             }
             draw() {
-                ctx2.save();
-                ctx2.translate(this.x, this.y);
-                ctx2.rotate(this.rotation * Math.PI / 180);
-                ctx2.fillStyle = this.color;
-                ctx2.globalAlpha = this.opacity;
-                // Draw a simple petal shape (oval stretched)
-                ctx2.beginPath();
-                ctx2.ellipse(0, 0, this.size/2, this.size, 0, 0, 2 * Math.PI);
-                ctx2.fill();
-                ctx2.restore();
+                ctx2.save(); ctx2.translate(this.x, this.y); ctx2.rotate(this.rotation * Math.PI / 180);
+                ctx2.fillStyle = this.color; ctx2.globalAlpha = this.opacity;
+                ctx2.beginPath(); ctx2.ellipse(0, 0, this.size/2, this.size, 0, 0, 2 * Math.PI); ctx2.fill(); ctx2.restore();
             }
         }
 
