@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, My Love</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ffafbd;
+            --deep-rose: #ffc3a0;
+            --text-color: #4a4a4a;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe3e3 100%);
+        }
+
+        /* --- MAGIC ENTRANCE --- */
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1.5s ease-out;
+        }
+
+        .heart-btn {
+            background: none;
+            border: none;
+            font-size: 5rem;
+            cursor: pointer;
+            animation: pulse 1.5s infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.5));
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- BACKGROUND PARTICLES --- */
+        #canvas {
+            position: fixed;
+            top: 0; left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* --- MAIN CONTENT --- */
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #d63384;
+            margin-bottom: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 50px;
+        }
+
+        /* --- PHOTO GALLERY (POLAROID STYLE) --- */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 15px 15px 40px 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: rotate(var(--r));
+            transition: transform 0.3s ease;
+            width: 250px;
+        }
+
+        .polaroid:hover {
+            transform: scale(1.05) rotate(0deg);
+            z-index: 20;
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .polaroid span {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            display: block;
+            margin-top: 15px;
+            color: #555;
+        }
+
+        /* --- MESSAGE BOX --- */
+        .message-section {
+            max-width: 600px;
+            margin: 80px auto;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        #typing-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: var(--text-color);
+            min-height: 100px;
+        }
+
+        /* --- AUDIO PLAYER --- */
+        #music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: white;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        .visible { opacity: 1 !important; transform: translateY(0) !important; }
+
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <button class="heart-btn" onclick="startMagic()">❤️</button>
+        <p>Click the heart for a surprise</p>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="container">
+        <h1 id="main-title">Happy Birthday, Gorgeous!</h1>
+        <p class="subtitle">Our first of many together...</p>
+
+        <div class="gallery">
+            <div class="polaroid" style="--r: -3deg;">
+                <img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?auto=format&fit=crop&w=500" alt="Us">
+                <span>The first day...</span>
+            </div>
+            <div class="polaroid" style="--r: 2deg;">
+                <img src="https://images.unsplash.com/photo-1516589174184-c6848b11d403?auto=format&fit=crop&w=500" alt="Us">
+                <span>My favorite smile</span>
+            </div>
+            <div class="polaroid" style="--r: -2deg;">
+                <img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=500" alt="Us">
+                <span>Magic moments</span>
+            </div>
+        </div>
+
+        <div class="message-section">
+            <div id="typing-text"></div>
+        </div>
+
+        <p style="color: #d63384; font-family: 'Dancing Script'; font-size: 2rem;">I love you forever.</p>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="https://www.chosic.com/wp-content/uploads/2021/04/Beautiful-Piano.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const message = "Since the day we met, my life has been so much brighter. I never knew I could feel this happy until I found you. This is our first birthday together, and I promise to make every single one after this even more special. You are my world, my heart, and my best friend. Happy Birthday, baby! 🌸✨";
+
+        function startMagic() {
+            // Remove overlay
+            document.getElementById('overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('overlay').style.display = 'none';
+                document.getElementById('main-title').classList.add('visible');
+                typeWriter();
+            }, 1500);
+
+            // Play Music
+            const music = document.getElementById('bg-music');
+            music.play();
+
+            // Start Particle Effect
+            initParticles();
+        }
+
+        // Typewriter Effect
+        let i = 0;
+        function typeWriter() {
+            if (i < message.length) {
+                document.getElementById("typing-text").innerHTML += message.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+
+        // Particle System
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initParticles() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            for(let i = 0; i < 50; i++) {
+                particles.push(new Particle());
+            }
+            animate();
+        }
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 15 + 5;
+                this.speedY = Math.random() * 1 + 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.y -= this.speedY;
+                if (this.y < -20) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 182, 193, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
